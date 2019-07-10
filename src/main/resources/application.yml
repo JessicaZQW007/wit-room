@@ -1,0 +1,38 @@
+server:
+  port: 8082
+  context-path: /
+
+
+spring:
+   datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://120.78.93.40:3306/wit-room?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      # url: jdbc:mysql://120.78.93.40:3306/wit-room?useUnicode=true&characterEncoding=utf-8&useSSL=false
+
+      username: root
+      password: 123456
+   jpa:
+     hibernate.ddl-auto: update
+     show-sql: true
+   thymeleaf:
+    cache: false
+   session:
+     store-type: none
+     timeout: 20
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: com.yhxc.entity
+  #pagehelper分页插件
+  pagehelper:
+      helperDialect: mysql
+      reasonable: true
+      supportMethodsArguments: true
+      params: count=countSql
+logging:
+        config: classpath:config/logback.xml
+        level:
+          root: info
+          
+               
+        
+          

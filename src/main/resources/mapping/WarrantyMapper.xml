@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yhxc.mapper.warranty.WarrantyMapper">
+    <sql id="Base_Column_List">
+    w.id,
+	w.uuid,
+	et.type,
+	eb.brand,
+	eb.model,
+	(SELECT t.`name` FROM t_build t WHERE t.id = e.build_id) build,
+    (SELECT t.`name` FROM t_build t WHERE t.id = e.build_num) room,
+    w.run_time runTime,
+    w.state,
+    w.warranty_time warrantyTime
+    </sql>
+
+    <select id="listWarranty" resultType="com.yhxc.entity.aftersale.Warranty"
+            parameterType="com.yhxc.entity.aftersale.Warranty">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        t_warranty w,
+        t_equipment e,
+        t_project p,
+        t_build b,
+        t_equipment_brand eb,
+        t_equipment_type et
+        WHERE
+        w.uuid = e.uuid
+        AND e.brand_id = eb.id
+        AND e.type_id = et.id
+        AND e.build_num = b.id
+        AND e.build_id = b.pid
+        AND p.id = e.project_id
+        <if test="uuid != null and uuid != ''">
+            and w.uuid = #{uuid}
+        </if>
+
+        <if test="state != null and state != ''">
+            and w.state = #{state}
+        </if>
+
+        <if test="projectId != null and projectId != ''">
+            and e.project_id = #{projectId}
+        </if>
+
+        <if test="warrantyTime != null and warrantyTime != ''">
+            and w.warranty_time = #{warrantyTime}
+        </if>
+        <if test="organizationId != null and organizationId != ''">
+            and e.organization_id = #{organizationId}
+        </if>
+        <if test="dealerId != null and dealerId != ''">
+            and e.dealer_id = #{dealerId}
+        </if>
+        <if test="companyId != null and companyId != ''">
+            and e.company_id = #{companyId}
+        </if>
+    </select>
+
+
+    <select id="listOverdue" resultType="com.yhxc.entity.aftersale.Warranty"
+            parameterType="com.yhxc.entity.aftersale.Warranty">
+        SELECT w.id,w.uuid,x.deadline FROM t_warranty w, (SELECT uuid, MAX(deadline) deadline FROM `t_warranty_record` GROUP BY uuid) x
+        where w.uuid = x.uuid and x.deadline &lt; now()
+    </select>
+</mapper>

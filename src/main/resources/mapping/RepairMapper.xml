@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yhxc.mapper.repair.RepairMapper">
+    <sql id="Base_Column_List">
+        r.id,
+        r.uuid,
+        r.user_name userName,
+        et.type,
+        eb.brand,
+        eb.model,
+        (SELECT t.`name` FROM t_build t WHERE t.id = e.build_id) build,
+        (SELECT t.`name` FROM t_build t WHERE t.id = e.build_num) room,
+        r.state,
+        r.create_time createTime,
+        r.accept_time acceptTime,
+        r.finish_time finishTime,
+        r.remark,
+        r.problem,
+        r.img1,
+        r.img2,
+        r.signature,
+        r.finish_time
+
+    </sql>
+
+    <select id="list" resultType="com.yhxc.entity.aftersale.Repair"
+            parameterType="com.yhxc.entity.aftersale.Repair">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        t_repair r,
+        t_equipment e,
+        t_build b,
+        t_equipment_brand eb,
+        t_equipment_type et
+        WHERE
+        r.uuid = e.uuid
+        AND e.brand_id = eb.id
+        AND e.type_id = et.id
+        AND e.build_num = b.id
+        AND e.build_id = b.pid
+        <if test="uuid != null and uuid != ''">
+            and r.uuid = #{uuid}
+        </if>
+        <if test="userName != null and userName != ''">
+            and r.user_name = #{userName}
+        </if>
+
+        <if test="state != null and state != ''">
+            and r.state = #{state}
+        </if>
+
+        <if test="createTime != null and createTime != ''">
+            and r.create_time = #{createTime}
+        </if>
+
+        <if test="organizationId != null and organizationId != ''">
+            and e.organization_id = #{organizationId}
+        </if>
+        <if test="dealerId != null and dealerId != ''">
+            and e.dealer_id = #{dealerId}
+        </if>
+        <if test="companyId != null and companyId != ''">
+            and e.company_id = #{companyId}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yhxc.mapper.send.ReceiveDataMapper">
+    <sql id="findAllColumns">
+        re.id,
+        totalpower,
+        receive_date AS receiveDate,
+        re.uuid,
+        ktccurrent1,
+        ktccurrent2,
+        nbimei,
+        nbismi,
+        nbsignal,
+        currenta*transrate AS currentA,
+        currentb*transrate AS currentB,
+        currentc*transrate AS currentC,
+        hjtemp,
+        lmalarm1,
+        lmalarm2,
+        relaycontrolmark,
+        sethjtemp,
+        setsfktemp1,
+        setsfktemp2,
+        sfktemp1,
+        swhumi,
+        swtemp,
+        voltagea,
+        voltageb,
+        voltagec,
+        air_current AS airCurrent,
+        air_eq_adress AS airEqAdress,
+        elequantity,
+        board_data_report_interval AS BoardDataReportInterval,
+        sfktemp2,
+        error_codee AS errorCodee,
+        kt_run_model1 AS ktRunModel1,
+        kt_run_model2 AS ktRunModel2,
+        kt_set_fs1 AS ktSetFs1,
+        kt_set_fs2 AS ktSetFs2,
+        kt_set_fx1 AS ktSetFx1,
+        kt_set_fx2 AS ktSetFx2,
+        kt_set_temp1 AS ktSetTemp1,
+        kt_set_temp2 AS ktSetTemp2,
+        kt_switch1 AS ktSwitch1,
+        kt_switch2 AS ktSwitch2,
+        hight_temp AS hightTemp,
+        lower_temp AS lowerTemp,
+        run_rule AS runRule,
+        xin_fen AS xinFen,
+        sys_lock AS sysLock
+    </sql>
+
+    <sql id="findNnm1Columns">
+        sfktemp1,setsfktemp1,ktccurrent1,lmalarm1,board_data_report_interval AS BoardDataReportInterval,
+
+    </sql>
+
+    <sql id="findNnm2Columns">
+        sfktemp2,setsfktemp2,ktccurrent2,lmalarm2,board_data_report_interval AS BoardDataReportInterval
+    </sql>
+
+    <!-- 查看系统信息 -->
+    <select id="findAllList" resultType="com.yhxc.entity.send.ReceiveData"
+            parameterType="com.yhxc.entity.send.ReceiveData">
+        select <include refid="findAllColumns"/>
+        FROM s_receive_data re,t_equipment eq
+        WHERE re.uuid=eq.uuid
+        and re.id=(SELECT MAX(id) from s_receive_data WHERE uuid=#{uuid})
+    </select>
+
+    <!-- 查看空调1数据 -->
+    <select id="findNnm1" resultType="com.yhxc.entity.send.ReceiveData"
+            parameterType="com.yhxc.entity.send.ReceiveData">
+        select <include refid="findNnm1Columns"/>
+        FROM s_receive_data
+        WHERE id=(SELECT MAX(id) from s_receive_data WHERE uuid=#{uuid})
+    </select>
+
+    <!-- 查看空调2数据 -->
+    <select id="findNnm2" resultType="com.yhxc.entity.send.ReceiveData"
+            parameterType="com.yhxc.entity.send.ReceiveData">
+        select <include refid="findNnm2Columns"/>
+        FROM s_receive_data
+        WHERE id=(SELECT MAX(id) from s_receive_data WHERE uuid=#{uuid})
+    </select>
+</mapper>

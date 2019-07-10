@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yhxc.mapper.equipment.EquipmentMapper">
+    <sql id="Base_Column_List">
+        e.id,
+        e.uuid,
+        e.production_date productionDate,
+        e.`name`,
+        e.remark,
+        e.transrate,
+        e.voltage,
+        e.eq_type_id eqTypeId,
+        e.state,
+        e.brand_id brandId,
+        e.ename_id enameId,
+        e.protocol,
+        u.brand,
+        u.model,
+        u.p_id pid,
+        e.nb_card nbCard,
+        e.create_time createTime,
+        e.deleted,
+        p.id projectId,
+        p.address,
+        p.pname,
+        p.eq_id eqId,
+        e.group_name groupName,
+        n.`name` unitName,
+        n.id unitId,
+        n.type unitType
+
+    </sql>
+    <select id="listEquipmentRes" resultType="com.yhxc.entity.equipment.Equipment"
+            parameterType="com.yhxc.entity.equipment.Equipment">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        t_equipment e
+        LEFT JOIN  p_project p
+        ON p.eq_id=e.id
+        LEFT JOIN t_equipment_type AS u ON e.eq_type_id = u.id
+        LEFT JOIN t_unit AS n ON e.unit_id = n.id
+        where 1 = 1
+        <!-- 根据设备主键查询 -->
+        <if test="id != null and id != ''">
+            and e.id = #{id}
+        </if>
+        <!-- 根据设备名称查询 -->
+        <if test="name != null and name != ''">
+            and e.name LIKE CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+        <!-- 根据项目名称查询 -->
+        <if test="pname != null and pname != ''">
+            and p.pname LIKE CONCAT(CONCAT('%', #{pname}),'%')
+        </if>
+
+        <!-- 根据设备编号查询 -->
+        <if test="uuid != null and uuid != ''">
+            and e.uuid LIKE CONCAT(CONCAT('%', #{uuid}),'%')
+        </if>
+        <!-- 根据地址查询 -->
+        <if test="address != null and address != ''">
+            and p.address LIKE CONCAT(CONCAT('%', #{address}),'%')
+        </if>
+        <!-- 根据时间范围查询 -->
+        <if test="statdate != null and statdate != ''">
+            and    substr(e.create_time,1,10)    BETWEEN  #{statdate}  and  #{enddate}
+        </if>
+        ORDER by e.create_time desc
+    </select>
+
+    <!--设备分布统计(省) -->
+    <select id="equipmentsheng" resultType="java.util.HashMap">
+        SELECT
+        count(*) value,
+        substring_index(substring_index(p.address,',',3),',', 1) name
+        FROM p_project p
+        INNER JOIN t_equipment e ON p.eq_id=e.id
+        GROUP BY substring_index(substring_index(p.address,',',3),',', 1);
+    </select>
+
+    <!--设备分布统计(市) -->
+    <select id="equipmentshi" resultType="java.util.HashMap">
+        SELECT
+        count(*) value,
+        substring_index(substring_index(p.address,',',3),',',2) name
+        FROM p_project p
+        INNER JOIN t_equipment e ON p.eq_id=e.id
+        GROUP BY substring_index(substring_index(p.address,',',3),',', 2);
+    </select>
+
+
+
+    <!--设备分布统计(区) -->
+    <select id="equipmentqu" resultType="java.util.HashMap">
+        SELECT
+        count(*) value,
+        substring_index(substring_index(p.address,',',3),',', 3) name
+        FROM p_project p
+        INNER JOIN t_equipment e ON p.eq_id=e.id
+        GROUP BY substring_index(substring_index(p.address,',',3),',', 3);
+    </select>
+
+</mapper>

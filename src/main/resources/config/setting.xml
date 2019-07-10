@@ -1,0 +1,5 @@
+<web>
+    <setting name="fileRoot" value="C:/FileRoot"/>
+    <setting name="webFileRoot" value="C:/webFileRoot"/>
+    <setting name="webFileRootUrl" value="http://183.235.222.234:8082/upload"/>
+</web>

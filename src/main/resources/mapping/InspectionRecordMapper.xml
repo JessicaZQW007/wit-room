@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yhxc.mapper.inspection.InspectionRecordMapper">
+    <sql id="Base_Column_List">
+        ir.id,
+        e.uuid,
+        et.type,
+        eb.brand,
+        eb.model,
+        (SELECT t.`name` FROM t_build t WHERE t.id = e.build_id) build,
+        (SELECT t.`name` FROM t_build t WHERE t.id = e.build_num) room,
+        ir.problem,
+        ir.create_time createTime
+    </sql>
+
+    <!-- 查看最新事件的巡检记录 -->
+    <select id="listRecord" resultType="com.yhxc.entity.aftersale.InspectionRecord"
+            parameterType="com.yhxc.entity.aftersale.InspectionRecord">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        t_equipment e
+        LEFT JOIN (SELECT
+        id,
+        uuid,
+        problem,
+        inspection_id,
+        remark,
+        MAX(create_time) create_time
+        FROM
+        t_inspection_record
+        GROUP BY
+        uuid) ir ON e.uuid = ir.uuid
+        LEFT JOIN t_project p ON p.id = e.project_id
+        LEFT JOIN t_build b ON e.build_id = b.pid
+        AND e.build_num = b.id
+        LEFT JOIN t_equipment_brand eb ON e.brand_id = eb.id
+        LEFT JOIN t_equipment_type et ON e.type_id = et.id
+        WHERE 1 = 1
+        <if test="uuid != null and uuid != ''">
+            and w.uuid = #{uuid}
+        </if>
+        <if test="projectId != null and projectId != ''">
+            and e.project_id = #{projectId}
+        </if>
+        <!-- 建筑 -->
+        <if test="build != null and build != ''">
+            and e.build_id = #{build}
+        </if>
+    </select>
+
+    <!-- 查看某个任务的所有巡检记录 -->
+    <select id="listAllRecord" resultType="com.yhxc.entity.aftersale.InspectionRecord"
+            parameterType="com.yhxc.entity.aftersale.InspectionRecord">
+
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        t_inspection_record ir
+        LEFT JOIN t_equipment e ON ir.uuid = e.uuid
+        LEFT JOIN t_build b ON e.build_id = b.pid
+        AND e.build_num = b.id
+        LEFT JOIN t_equipment_brand eb ON e.brand_id = eb.id
+        LEFT JOIN t_equipment_type et ON e.type_id = et.id
+        WHERE 1 = 1
+        <if test="inspectionId != null and inspectionId != ''">
+            and ir.inspection_id = #{inspectionId}
+        </if>
+        ORDER BY ir.create_time desc
+    </select>
+</mapper>

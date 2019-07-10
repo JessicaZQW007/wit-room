@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="wit-room:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="wit-room-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="wit-room:war exploded" />
+    </root>
+  </artifact>
+</component>
