@@ -232,7 +232,8 @@ public class ProjectController {
     @RequestMapping("/findByid")
     public ResultInfo findByid(String id) {
         Project datas=projectService.findById(id);
-
+        System.out.println("unitID="+datas.getUnitId());
+        System.out.println("unitType="+datas.getType());
         JSONArray datasAir=airService.findById(id);
 
         return new ResultInfo(StatusCode.SUCCESS, "成功！",datas,datasAir);
