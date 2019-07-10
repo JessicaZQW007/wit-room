@@ -4,6 +4,7 @@ import com.yhxc.entity.count.*;
 import com.yhxc.entity.send.ReceiveData;
 import com.yhxc.entity.system.Log;
 import com.yhxc.repository.count.*;
+import com.yhxc.repository.send.ReceiveDataRepository;
 import com.yhxc.service.analyze.RunService;
 import com.yhxc.service.count.*;
 import com.yhxc.service.system.LogService;
@@ -68,6 +69,9 @@ public class Quartz {
     private YearAirCountElectricRepository yearAirCountElectricRepository;
     @Resource
     private  DayAirCountElectricService dayAirCountElectricService ;
+
+    @Resource
+    private ReceiveDataRepository  receiveDataRepository;
 
 
 
@@ -165,6 +169,17 @@ public class Quartz {
             monthCountElectricService.save(monthCountElectric);
         }
         logService.save(new Log(Log.ADD_ACTION, "在"+DateUtil.getTime()+"的时候:备份空调用电量"+date+"数据,成功!"));
+    }
+
+    //删除7天之前的数据
+    @Scheduled(cron = "0 30 5 * * ?") // 每天五点半
+    @Async
+    public void del() throws Exception {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -7);
+        String sevenday = new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime());
+        System.out.println("sevenday="+sevenday);
+        receiveDataRepository.delByCreateTime(sevenday);
     }
 
 

@@ -3,9 +3,11 @@ package com.yhxc.repository.send;
 import com.yhxc.entity.send.ReceiveData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -196,5 +198,17 @@ public interface ReceiveDataRepository extends JpaRepository<ReceiveData,String>
      */
     @Query(value = " select MAX(totalpower) FROM s_receive_data   where uuid=:uuid and receive_date LIKE CONCAT('%',:receiveDate,'%') ", nativeQuery = true)
     public String findTotalpowerHourMax(@Param("uuid")String uuid,@Param("receiveDate")String receiveDate);
+
+
+
+    /**
+     *  删除7天之前创建的数据
+     * @return
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "delete from s_receive_data where cast(createtime  as datetime)<(:createtime) ", nativeQuery = true)
+    public void delByCreateTime(@Param("createtime") String createtime);
+
 
 }

@@ -101,7 +101,7 @@ public class TemperatureQuartz {
 
 
     //记录上一年的设备温度湿度数据
-    @Scheduled(cron = "0 10 04 1 * ?") // 每年的1月1号的凌晨4点10分执行一次
+    @Scheduled(cron = "0 50 04 1 * ?") // 每年的1月1号的凌晨4点10分执行一次
     @Async
     public void yearTemperature() throws Exception{
         SimpleDateFormat format = new SimpleDateFormat("yyyy");
