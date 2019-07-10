@@ -356,6 +356,7 @@ public class EquipmentServiceImpl implements EquipmentService {
             jsonObject.put("model", objects[4]);
             jsonObject.put("nb_card", objects[5]);
             jsonObject.put("eq_id", objects[6]);
+            jsonObject.put("production_date", objects[7]);
             jsonArray.add(jsonObject);
         }
         return jsonArray;
