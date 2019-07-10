@@ -195,40 +195,35 @@ public class AirBrandServiceImpl implements AirBrandService {
 
 
         AirBrand airBrand=airBrandRepository.findByBrandAndModel(brand,model);
+        if(airBrand!=null) {
+            String airID = airBrand.getId();
+            Air air = airRepository.findByBrandId(airID);
 
+            if (air != null) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("airBrandID", airBrand.getId());
+                jsonObject.put("brand", airBrand.getBrand());
+                jsonObject.put("airType", air.getAirType());
+                jsonObject.put("model", airBrand.getModel());
+                jsonObject.put("airID", air.getId());
+                jsonObject.put("power", air.getPower());
+                jsonObject.put("current", air.getCurrent());
+                if (airBrand.getImg() == null) {
+                    System.out.println("进了");
+                    jsonObject.put("img", 0);
+                } else {
+                    jsonObject.put("img", airBrand.getImg());
+                }
+                jsonArray.add(jsonObject);
 
-
-
-        System.out.println("airID="+airBrand.getId());
-        System.out.println("img="+airBrand.getImg());
-
-        String airID=airBrand.getId();
-        Air air=airRepository.findByBrandId(airID);
-
-        if(air!=null) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("airBrandID", airBrand.getId());
-            jsonObject.put("brand", airBrand.getBrand());
-            jsonObject.put("airType", air.getAirType());
-            jsonObject.put("model", airBrand.getModel());
-            jsonObject.put("airID", air.getId());
-            jsonObject.put("power", air.getPower());
-            jsonObject.put("current", air.getCurrent());
-            if (airBrand.getImg() == null) {
-                System.out.println("进了");
-                jsonObject.put("img", 0);
-            } else {
-                jsonObject.put("img", airBrand.getImg());
             }
-
-
-            jsonArray.add(jsonObject);
-
         }
-
 
         return jsonArray;
     }
+
+
+
 
 
 }

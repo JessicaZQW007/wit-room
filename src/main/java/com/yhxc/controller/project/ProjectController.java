@@ -77,10 +77,10 @@ public class ProjectController {
         project.setElectricityPrice(Double.parseDouble((String) json.get("electricityPrice")));//每度电的单价
         project.setEqId((String) json.get("eqId"));//设备id
 
-        project.setTransrate((int) json.get("transrate"));//互感器倍率
-        project.setVoltage((int) json.get("voltage"));//设备电压
-        project.setUnitType((String) json.get("voltage"));//机构类别
-        project.setUnitId((String) json.get("voltage"));//机构ID
+        project.setTransrate((json.getInt("transrate")));//互感器倍率
+        project.setVoltage((json.getInt("voltage")));//设备电压
+        project.setUnitType((String) json.get("unitType"));//机构类别
+        project.setUnitId((String) json.get("unitId"));//机构ID
 
     String  location=AddressLngLatExchange.getLngLatFromOneAddr((String) json.get("address"));//项目地址转化成经纬度
           if(StringUtil.isNotEmpty(location)){
@@ -89,8 +89,8 @@ public class ProjectController {
 
         //如果添加的时候的绑定了设备（设备ID不为空） 修改设备表里的互感器倍率和电压
         String eqid=(String) json.get("eqId");
-        int transrate=(int) json.get("transrate");
-        int voltage=(int) json.get("voltage");
+        Integer transrate=(Integer) json.get("transrate");
+        Integer voltage= json.getInt("voltage");
           if(StringUtil.isNotEmpty(eqid)){
                 equipmentService.updateTransrate(transrate,voltage,eqid);
           }
@@ -158,10 +158,10 @@ public class ProjectController {
         project.setEquipmentNum(Integer.parseInt((String) json.get("equipmentNum")));//空调数量
         project.setCreatetime((String) json.get("createtime"));//创建日期
 
-        project.setTransrate((int) json.get("transrate"));//互感器倍率
-        project.setVoltage((int) json.get("voltage"));//设备电压
-        project.setUnitType((String) json.get("voltage"));//机构类别
-        project.setUnitId((String) json.get("voltage"));//机构ID
+        project.setTransrate(json.getInt("transrate"));//互感器倍率
+        project.setVoltage(json.getInt("voltage"));//设备电压
+        project.setUnitType((String) json.get("unitType"));//机构类别
+        project.setUnitId((String) json.get("UnitId"));//机构ID
 
         project.setElectricityPrice(Double.parseDouble((String) json.get("electricityPrice")));//每度电的单价
         String  location=AddressLngLatExchange.getLngLatFromOneAddr((String) json.get("address"));//项目地址转化成经纬度
@@ -172,8 +172,8 @@ public class ProjectController {
 
         //绑定设备 修改设备表里的互感器倍率和电压
         String eqid=(String) json.get("eqId");
-        int transrate=(int) json.get("transrate");
-        int voltage=(int) json.get("voltage");
+        int transrate=json.getInt("transrate");
+        int voltage=json.getInt("voltage");
         if(StringUtil.isNotEmpty(eqid)){
             equipmentService.updateTransrate(transrate,voltage,eqid);
         }

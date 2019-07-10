@@ -95,7 +95,7 @@ public class AirBrandController {
 
 
     /**
-     * 根据id查询品牌 型号
+     * 根据品牌和型号查询
      * @param
      * @return
      */
