@@ -55,6 +55,9 @@ public class Project  {
     private String unitId;//机构ID
 
     @Column(length=255)
+    private String  unitPid;//上级平台单位ID
+
+    @Column(length=255)
     private Integer  transrate;//互感器倍率 默认380V
 
     @Column(length=255)
@@ -215,6 +218,14 @@ public class Project  {
 
     public void setVoltage(Integer voltage) {
         this.voltage = voltage;
+    }
+
+    public String getUnitPid() {
+        return unitPid;
+    }
+
+    public void setUnitPid(String unitPid) {
+        this.unitPid = unitPid;
     }
 
     @Override

@@ -68,11 +68,12 @@ public class User {
     @Column(length = 50)
     private Integer userType;    // 用户类别：1平台用户，2机构用户
 
-   /* @Column(length = 50)
-    private String unitName;    // 单位名称*/
 
     @Column(length = 50)
     private String unitId;    // 单位ID
+
+    @Column(length = 50)
+    private String unitPid;    // 上级平台单位ID
 
 
 
@@ -289,13 +290,7 @@ public class User {
         this.userType = userType;
     }
 
-   /* public String getUnitName() {
-        return unitName;
-    }
 
-    public void setUnitName(String unitName) {
-        this.unitName = unitName;
-    }*/
 
     public String getUnitId() {
         return unitId;
@@ -304,6 +299,15 @@ public class User {
     public void setUnitId(String unitId) {
         this.unitId = unitId;
     }
+
+    public String getUnitPid() {
+        return unitPid;
+    }
+
+    public void setUnitPid(String unitPid) {
+        this.unitPid = unitPid;
+    }
+
 
     @Override
     public String toString() {
@@ -320,8 +324,8 @@ public class User {
                 ", state=" + state +
                 ", createTime='" + createTime + '\'' +
                 ", userType='" + userType +
-               /* ", unitName='" + unitName + '\'' +*/
                 ", unitId='" + unitId + '\'' +
+                ", unitPid='" + unitPid + '\'' +
                 '}';
     }
 }

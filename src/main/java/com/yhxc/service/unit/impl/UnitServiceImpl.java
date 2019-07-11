@@ -153,9 +153,33 @@ public class UnitServiceImpl implements UnitService{
     @Override
     public JSONArray findNameAll(){
         JSONArray jsonArray=new JSONArray();
-        //分为平台单位 1和项目机构 2
+        //先查询所有平台 再查询平台下的机构
+        List<?> datas=unitRepository.findByType("1",0);
+        if(datas.size()!=0) {
+            for (int j = 0; j < datas.size(); j++) {
+                Object[] objects = (Object[]) datas.get(j);
+                JSONArray jsonArray1 = new JSONArray();
+                JSONObject jsonObject = new JSONObject();
+
+                jsonObject.put("id", objects[0]);
+                jsonObject.put("name", objects[1]);
+                List<?> datas1 = unitRepository.findByPId(objects[0].toString(), 0);
+                if (datas1.size() != 0) {
+                    for (int k = 0; k < datas1.size(); k++) {
+                        JSONObject jsonObject1 = new JSONObject();
+                        Object[] objects2 = (Object[]) datas1.get(k);
+                        jsonObject1.put("id", objects2[0]);
+                        jsonObject1.put("name", objects2[1]);
+                        jsonArray1.add(jsonObject1);
+                    }
+
+                }
 
 
+                jsonObject.put("children", jsonArray1);
+                jsonArray.add(jsonObject);
+            }
+        }
 
 
 

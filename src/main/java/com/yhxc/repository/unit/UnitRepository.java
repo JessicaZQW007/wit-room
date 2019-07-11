@@ -69,6 +69,11 @@ public interface UnitRepository extends JpaRepository<Unit, String>,JpaSpecifica
     public String findByEnameBrandModel(@Param("ename")String ename,@Param("brand")String brand,@Param("model")String model);
 
 
+    //查询平台下的机构(状态：正常 或者 锁定)
+    @Query(value = "select id,name from t_unit  WHERE " +
+            "if(:pId !='', p_id=:pId, 1=1 ) " +
+            "AND if(:state !='', state=:state, 1=1 ) " , nativeQuery = true)
+    public List<?> findByPId(@Param("pId")String pId,@Param("state")int state);
 
 
 }
