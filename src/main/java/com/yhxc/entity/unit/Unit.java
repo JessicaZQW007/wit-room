@@ -35,6 +35,9 @@ public class Unit {
     private String type;    // 单位类型：1为 平台单位 2为机构单位
 
     @Column(length = 50)
+    private String pId;    // 所属上级单位，平台1级，机构2级
+
+    @Column(length = 50)
     private String createtime;    // 创建时间
 
     @Column(name = "state", columnDefinition = "tinyint default 0")
@@ -114,6 +117,14 @@ public class Unit {
         this.state = state;
     }
 
+    public String getpId() {
+        return pId;
+    }
+
+    public void setpId(String pId) {
+        this.pId = pId;
+    }
+
     @Override
     public String toString() {
         return "Unit{" +
@@ -123,9 +134,10 @@ public class Unit {
                 ", phone='" + phone + '\'' +
                 ", site='" + site + '\'' +
                 ", address='" + address + '\'' +
-                ", type=" + '\'' + '\'' +
+                ", type='" + type + '\'' +
+                ", pId='" + pId + '\'' +
                 ", createtime='" + createtime + '\'' +
-                ", state=" + '\'' +
+                ", state=" + state  +
                 '}';
     }
 

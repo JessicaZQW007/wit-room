@@ -134,9 +134,15 @@ public class UnitController {
                 System.out.println("UuidUtil.get32UUID()="+UuidUtil.get32UUID());
                 unit.setId(UuidUtil.get32UUID());
 
+                if(unit.getType().equals("1")){
+                    //平台机构
+                    unit.setpId("-1");
+                }
+
                 unit.setCreatetime(DateUtil.getTime());
                 unit.setState(0);
                 unitService.save(unit);
+
 
                 info = "新增成功";
                 logService.save(new Log(Log.ADD_ACTION, info + "," + unit));
@@ -211,6 +217,7 @@ public class UnitController {
         }
         return new ResultInfo(StatusCode.SUCCESS, "删除成功！");
     }
+
 
 
 

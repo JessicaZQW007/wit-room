@@ -98,7 +98,7 @@ public class UnitServiceImpl implements UnitService{
     }
 
 
-    //下拉联动 查询状态为正常(state 0)的数据
+    /*//下拉联动 查询状态为正常(state 0)的数据
     @Override
     public JSONArray findNameAll(){
         JSONArray jsonArray=new JSONArray();
@@ -146,7 +146,28 @@ public class UnitServiceImpl implements UnitService{
 
 
         return jsonArray;
+    }*/
+
+
+    //下拉联动 查询状态为正常(state 0)的数据
+    @Override
+    public JSONArray findNameAll(){
+        JSONArray jsonArray=new JSONArray();
+        //分为平台单位 1和项目机构 2
+
+
+
+
+
+
+        return jsonArray;
     }
+
+
+
+
+
+
 
 
     @Override
