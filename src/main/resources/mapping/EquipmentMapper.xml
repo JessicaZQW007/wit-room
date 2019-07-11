@@ -27,8 +27,8 @@
         e.group_name groupName,
         n.`name` unitName,
         n.id unitId,
-        n.type unitType
-
+        n.type unitType,
+        n.p_id unitPid
     </sql>
     <select id="listEquipmentRes" resultType="com.yhxc.entity.equipment.Equipment"
             parameterType="com.yhxc.entity.equipment.Equipment">
