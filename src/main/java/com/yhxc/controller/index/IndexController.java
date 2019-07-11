@@ -174,9 +174,11 @@ public class IndexController {
     @ResponseBody
     @RequestMapping("/sumHourbiao")
     public ResultInfo sumHourbiao(String date,String uuid)throws Exception {
-        JSONArray datas = dayCountElectricService.sumHourCountbiao(date, uuid);
+        JSONArray datas = dayCountElectricService.sumHourCountbiao1(date, uuid);
         return new ResultInfo(StatusCode.SUCCESS, "成功！",datas);
     }
+
+
 
     /**
      *查询某天电表的三项电流

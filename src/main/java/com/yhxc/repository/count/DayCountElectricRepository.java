@@ -213,4 +213,10 @@ public interface DayCountElectricRepository extends JpaRepository<DayCountElectr
     public List<?> sumHourMin(@Param("date") String date,@Param("uuid") String uuid);
 
 
+    //查询某天每小时的最大用用量
+    @Query(value = "SELECT MAX(r.totalpower) ,  substr(r.receive_date,1,13) from  t_equipment e,s_receive_data r where \n" +
+            "               e.uuid =r.uuid and e.uuid=:uuid and substr(receive_date,1,10)=:date and totalpower>0.0 GROUP BY substr(r.receive_date,1,13) ", nativeQuery = true)
+    public List<?> sumHourMaxBiao(@Param("uuid") String uuid,@Param("date") String date);
+
+
 }

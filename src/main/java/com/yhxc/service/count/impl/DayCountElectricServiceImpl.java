@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -347,6 +348,81 @@ public class DayCountElectricServiceImpl implements DayCountElectricService {
         }
         return hourDispose(jsonArray);
     }
+
+
+//这里可以查询出数据库中已存在的每个小时的最大用电量的值，用当前小时的值减去上一个小时的值，第一条数据就去找前面天数的一直往前找
+    @Override
+    public JSONArray sumHourCountbiao1(String date, String uuid) throws ParseException {
+        JSONArray jsonArray = new JSONArray();
+        Double num=0.0;
+        List<?> datas = dayCountElectricRepository.sumHourMaxBiao(uuid,date);
+        for (int i = 0; i < datas.size(); i++) {
+
+            Object[] objects1 = (Object[]) datas.get(i);
+
+            if(i==0){
+                JSONObject jsonObject = new JSONObject();
+                float f1=0;
+                //第一条数据  找前一天的最大值，如果前一天没有就前两天，前两天没有就前三天
+                for(int x=1;x<=7;x++) {
+
+                    SimpleDateFormat sj = new SimpleDateFormat("yyyy-MM-dd");
+                    Date d = sj.parse(date);
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(d);
+                    calendar.add(Calendar.DATE, -x);
+                    System.out.println("前一天的日期：" + sj.format(calendar.getTime()));
+                    String lastDate = sj.format(calendar.getTime());
+
+                    List<?> lastDatas = dayCountElectricRepository.sumHourMaxBiao(uuid,lastDate);//前面天数的每个小时最大的数据  拿到最后一条数据就可以了
+                    System.out.println("lastDatas.size()="+lastDatas.size());
+                    if(lastDatas.size()!=0) {
+                        Object[] objectsLast = (Object[]) lastDatas.get(lastDatas.size() - 1);//最后一条最大的数据
+                        num = Double.valueOf(objects1[0].toString()) - Double.valueOf(objectsLast[0].toString());
+                        BigDecimal b = new BigDecimal(num);
+                        f1 = b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue(); // 保留两个小数点
+                        break;
+                    }
+
+                }
+                if(num==0.0){
+                    //如果前面的天数都没有数据  就减0
+                    num = Double.valueOf(objects1[0].toString()) - 0.0;
+                    BigDecimal b = new BigDecimal(num);
+                    f1 = b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue(); // 保留两个小数点
+                }
+                jsonObject.put("num", f1);
+                jsonObject.put("dateHour", objects1[1].toString().substring(objects1[1].toString().length() - 2, objects1[1].toString().length()));
+                jsonArray.add(jsonObject);
+
+
+
+
+
+            }else{
+                //非第一条数据 用当前的数据的电量值减去上一条数据的电量值
+                JSONObject jsonObject = new JSONObject();
+                Object[] objects2 = (Object[]) datas.get(i-1);
+                System.out.println("objects1[0]="+objects1[0]);
+                System.out.println("objects2[0]="+objects2[0]);
+
+                num=Double.valueOf(objects1[0].toString())-Double.valueOf(objects2[0].toString());
+                BigDecimal b = new BigDecimal(num);
+                float f1 = b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue(); // 保留两个小数点
+                jsonObject.put("num", f1);
+                jsonObject.put("dateHour", objects1[1].toString().substring(objects1[1].toString().length() - 2, objects1[1].toString().length()));
+                jsonArray.add(jsonObject);
+
+            }
+
+
+
+        }
+
+        return hourDispose(jsonArray);
+    }
+
+
 
     @Override
     public JSONArray sumHourCount(String date, String uuid) throws Exception {

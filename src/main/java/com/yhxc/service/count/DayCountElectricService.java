@@ -4,6 +4,8 @@ package com.yhxc.service.count;
 import com.yhxc.entity.count.DayCountElectric;
 import net.sf.json.JSONArray;
 
+import java.text.ParseException;
+
 /**
  * 每天电量汇总Service接口
  * @author yhxc 李文光
@@ -24,12 +26,20 @@ public interface DayCountElectricService {
      */
     public void sumHourCount(String date);
 
+
+
     /**
      * 统计某天每小时的汇总（电表）
      * @param date
      */
     public JSONArray sumHourCountbiao(String date,String uuid);
 
+
+    /**
+     * 统计某天每小时的汇总（电表）
+     * @param date
+     */
+    public JSONArray sumHourCountbiao1(String date,String uuid) throws ParseException;
 
 
     /**
