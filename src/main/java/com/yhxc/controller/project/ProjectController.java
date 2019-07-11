@@ -8,6 +8,7 @@ import com.yhxc.entity.project.AirBrand;
 import com.yhxc.entity.project.Project;
 import com.yhxc.entity.system.Log;
 import com.yhxc.entity.system.User;
+import com.yhxc.entity.unit.Unit;
 import com.yhxc.service.equipment.EquipmentService;
 import com.yhxc.service.project.AirBrandService;
 import com.yhxc.service.project.AirService;
@@ -81,6 +82,7 @@ public class ProjectController {
         project.setVoltage((json.getInt("voltage")));//设备电压
         project.setUnitType((String) json.get("unitType"));//机构类别
         project.setUnitId((String) json.get("unitId"));//机构ID
+
 
     String  location=AddressLngLatExchange.getLngLatFromOneAddr((String) json.get("address"));//项目地址转化成经纬度
           if(StringUtil.isNotEmpty(location)){
@@ -232,8 +234,7 @@ public class ProjectController {
     @RequestMapping("/findByid")
     public ResultInfo findByid(String id) {
         Project datas=projectService.findById(id);
-        System.out.println("unitID="+datas.getUnitId());
-        System.out.println("unitType="+datas.getType());
+
         JSONArray datasAir=airService.findById(id);
 
         return new ResultInfo(StatusCode.SUCCESS, "成功！",datas,datasAir);
@@ -342,6 +343,28 @@ public class ProjectController {
             airService.delete(id);
             return new ResultInfo(StatusCode.SUCCESS, "删除成功！");
 
+    }
+
+
+
+    /**
+     * 删除空调--删除多台
+     *
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping("/dels")
+    public ResultInfo deletes(String ids) throws Exception {
+        if (StringUtil.isNotEmpty(ids)) {
+            String idStr[] = ids.split(",");
+            for (int i = 0; i < idStr.length; i++) {
+
+                airService.delete(idStr[i]);//批量删除空调
+            }
+        }
+        return new ResultInfo(StatusCode.SUCCESS, "删除成功！");
     }
 
 
