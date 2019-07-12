@@ -151,9 +151,23 @@ public class EnergyController {
     @RequestMapping("/findMonthCount")
     public ResultInfo  findMonthCount(String date) {
         User u = Jurisdiction.getCurrentUser();
-        System.out.println("u.getUnitId="+u.getUnitId());
+
+        String pId="";
+        String unitId="";
+        if(u.getUserType()==1){
+            //平台用户
+            pId=u.getUnitId();
+
+        }else if(u.getUserType()==2){
+            //机构用户
+            unitId=u.getUnitId();
+        }
+
+
+
         System.out.println("userType="+u.getUserType());
-        JSONArray datas=  energyService.findMonthCount(date);
+
+        JSONArray datas=  energyService.findMonthCount(date,pId,unitId);
         return new ResultInfo(StatusCode.SUCCESS, "成功！",datas);
     }
 

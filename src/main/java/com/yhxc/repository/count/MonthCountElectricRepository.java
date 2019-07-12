@@ -154,11 +154,22 @@ public interface MonthCountElectricRepository extends JpaRepository<MonthCountEl
 
      /*
            查询某月全部项目的能耗
-            */
+            *//*
 
     @Query(value = " SELECT de.sun,de.num  from (  SELECT substr(substr(c.date,1,10),9,10) sun,sum(elequantity) num from c_month_count_electric c,t_equipment e ,p_project p where  c.uuid=e.uuid and p.eq_id=e.id \n" +
             "        and substr(c.date,1,7)=:date   GROUP BY c.date  )  de ORDER BY de.sun asc", nativeQuery = true)
-    public List<?> findMonthCount(@Param("date") String date);
+    public List<?> findMonthCount(@Param("date") String date);*/
+
+
+    /*
+           查询某月全部项目的能耗
+            */
+
+    @Query(value = " SELECT de.sun,de.num  from (  SELECT substr(substr(c.date,1,10),9,10) sun,sum(elequantity) num from c_month_count_electric c,t_equipment e ,p_project p,t_unit u where  c.uuid=e.uuid and p.eq_id=e.id \n" +
+            "        and substr(c.date,1,7)=:date and e.unit_id=u.id and p.unit_id=u.id " +
+            "and  if(:pId !='', u.p_id=:pId, 1 = 1) " +
+            "and  if(:unitId !='', e.unit_id=:unitId, 1 = 1)   GROUP BY c.date  )  de ORDER BY de.sun asc", nativeQuery = true)
+    public List<?> findMonthCount(@Param("date") String date,@Param("pId") String pId,@Param("unitId") String unitId);
 
 
 

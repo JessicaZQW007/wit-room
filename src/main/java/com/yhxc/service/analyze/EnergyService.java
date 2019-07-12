@@ -188,7 +188,7 @@ public interface EnergyService {
      * @param date
      * @return
      */
-    public JSONArray findMonthCount(String date);
+    public JSONArray findMonthCount(String date,String pId,String unitId);
 
     /**
      *

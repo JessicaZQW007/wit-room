@@ -201,8 +201,8 @@ public class EnergyServiceImpl  implements EnergyService {
 
 
     @Override
-    public JSONArray findMonthCount(String date) {
-        List<?> datas=monthCountElectricRepository.findMonthCount(date);
+    public JSONArray findMonthCount(String date,String pId,String unitId) {
+        List<?> datas=monthCountElectricRepository.findMonthCount(date, pId, unitId);
         return dayDispose(datas,date);
     }
 
