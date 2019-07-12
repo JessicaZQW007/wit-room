@@ -148,9 +148,10 @@ public interface EquipmentRepository extends JpaRepository<Equipment, String>, J
             " end aa ,xx3.uuid from (\n" +
             "select x3.receive_date,e.uuid,x3.board_data_report_interval   \n" +
             "from  t_equipment e  left   join  (SELECT * from s_receive_data where   id in (  select max(id) from s_receive_data group by uuid)  ) x3  on   e.uuid=x3.uuid         \n" +
-            " group by e.uuid) xx3) xxx3 ,t_equipment e,p_project p where xxx3.uuid=e.uuid and p.eq_id=e.id GROUP  by xxx3.aa", nativeQuery = true)
-
-    public List<?> findEqStatus();
+            " group by e.uuid) xx3) xxx3 ,t_equipment e,p_project p,t_unit u  where xxx3.uuid=e.uuid and p.eq_id=e.id and e.unit_id=u.id and p.unit_id=u.id " +
+            "and  if(:pId !='', u.p_id=:pId, 1 = 1) " +
+            "and  if(:unitId !='', e.unit_id=:unitId, 1 = 1) GROUP  by xxx3.aa", nativeQuery = true)
+    public List<?> findEqStatus(@Param("pId") String pId,@Param("unitId") String unitId);
 
 
 
@@ -158,8 +159,10 @@ public interface EquipmentRepository extends JpaRepository<Equipment, String>, J
      * 查询设备数量
 
      */
-    @Query(value = "SELECT  count(uuid) from t_equipment", nativeQuery = true)
-    public Integer eqNum();
+    @Query(value = "SELECT  count(e.uuid) from t_equipment e,t_unit u where e.unit_id=u.id " +
+            "and  if(:pId !='', u.p_id=:pId, 1 = 1) " +
+            "and  if(:unitId !='', e.unit_id=:unitId, 1 = 1) ", nativeQuery = true)
+    public Integer eqNum(@Param("pId") String pId,@Param("unitId") String unitId);
 
 
     /**

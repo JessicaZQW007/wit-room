@@ -160,14 +160,24 @@ public interface ProjectRepository extends JpaRepository<Project, String>,JpaSpe
      * 查询项目数量
 
      */
-    @Query(value = "SELECT  count(id) from p_project ", nativeQuery = true)
-    public Integer ProjectNum();
+    @Query(value = "SELECT  count(p.id) from p_project p,t_unit u where p.unit_id=u.id " +
+            "and  if(:pId !='', u.p_id=:pId, 1 = 1) " +
+            "and  if(:unitId !='', p.unit_id=:unitId, 1 = 1) ", nativeQuery = true)
+    public Integer ProjectNum(@Param("pId") String pId,@Param("unitId") String unitId);
+
+    /**
+     * 查询空调数量
+     *//*
+    @Query(value = "SELECT  sum(equipment_num) from p_project ", nativeQuery = true)
+    public Integer airNum();*/
 
     /**
      * 查询空调数量
      */
-    @Query(value = "SELECT  sum(equipment_num) from p_project ", nativeQuery = true)
-    public Integer airNum();
+    @Query(value = "SELECT  sum(p.equipment_num) from p_project p,t_unit u where p.unit_id=u.id " +
+            "and  if(:pId !='', u.p_id=:pId, 1 = 1) " +
+            "and  if(:unitId !='', p.unit_id=:unitId, 1 = 1)", nativeQuery = true)
+    public Integer airNum(@Param("pId") String pId,@Param("unitId") String unitId);
 
 
 

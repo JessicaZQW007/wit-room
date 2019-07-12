@@ -237,8 +237,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 
     @Override
-    public JSONObject findEqStatus() {
-        List<?> datas=  equipmentRepository.findEqStatus();
+    public JSONObject findEqStatus(String pId,String unitId) {
+        List<?> datas=  equipmentRepository.findEqStatus(pId,unitId);
         JSONObject json = new JSONObject();
         int  online=0;
         int  offline=0;
@@ -260,11 +260,11 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
-    public JSONObject findIndexData() {
+    public JSONObject findIndexData(String pId,String unitId) {
         JSONObject json = new JSONObject();
-        int projectNum=projectRepository.ProjectNum();
-        int eqNum=equipmentRepository.eqNum();
-        int airNum=projectRepository.airNum();
+        int projectNum=projectRepository.ProjectNum(pId,unitId);
+        int eqNum=equipmentRepository.eqNum(pId,unitId);
+        int airNum=projectRepository.airNum(pId,unitId);
         json.put("projectNum",projectNum);
         json.put("eqNum",eqNum);
         json.put("airNum",airNum);

@@ -95,14 +95,14 @@ public interface EquipmentService {
     /**
      * 查询项目中绑定设备 的运行状态
      */
-    public JSONObject findEqStatus();
+    public JSONObject findEqStatus(String pId,String unitId);
 
 
 
     /**
      * 查询首页中 ，项目数量，设备数量，空调数量
      */
-    public JSONObject findIndexData();
+    public JSONObject findIndexData(String pId,String unitId);
 
 
 

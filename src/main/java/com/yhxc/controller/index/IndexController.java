@@ -3,12 +3,14 @@ package com.yhxc.controller.index;
 import com.yhxc.common.ResultInfo;
 import com.yhxc.common.StatusCode;
 import com.yhxc.entity.count.MonthRunTimeCount;
+import com.yhxc.entity.system.User;
 import com.yhxc.service.count.*;
 import com.yhxc.service.equipment.EquipmentService;
 import com.yhxc.service.fault.FaultSetService;
 import com.yhxc.service.project.ProjectService;
 import com.yhxc.service.send.ReceiveDataService;
 import com.yhxc.utils.DateUtil;
+import com.yhxc.utils.Jurisdiction;
 import com.yhxc.utils.StringUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -56,8 +58,19 @@ public class IndexController {
     @ResponseBody
     @RequestMapping("/findIndexData")
     public ResultInfo findIndexData() {
-        JSONObject datas=  equipmentService.findIndexData();
-        JSONObject datas1=  equipmentService.findEqStatus();
+        String pId="";
+        String unitId="";
+        User u = Jurisdiction.getCurrentUser();
+        if(u.getUserType()==1){
+            //平台用户
+            pId=u.getUnitId();
+
+        }else if(u.getUserType()==2){
+            //机构用户
+            unitId=u.getUnitId();
+        }
+        JSONObject datas=  equipmentService.findIndexData(pId,unitId);
+        JSONObject datas1=  equipmentService.findEqStatus(pId,unitId);
         return new ResultInfo(StatusCode.SUCCESS, "成功！",datas,datas1);
     }
 
