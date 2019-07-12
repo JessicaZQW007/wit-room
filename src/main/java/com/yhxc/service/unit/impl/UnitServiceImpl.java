@@ -149,12 +149,12 @@ public class UnitServiceImpl implements UnitService{
     }*/
 
 
-   /* //下拉联动 查询状态为正常(state 0)的数据
+    //下拉联动 查询状态为正常(state 0)的数据
     @Override
     public JSONArray findNameAll(){
         JSONArray jsonArray=new JSONArray();
         //先查询所有平台 再查询平台下的机构
-        List<?> datas=unitRepository.findByType("1",0);
+        List<?> datas=unitRepository.findByType("1",0,"","");
         if(datas.size()!=0) {
             for (int j = 0; j < datas.size(); j++) {
                 Object[] objects = (Object[]) datas.get(j);
@@ -185,7 +185,7 @@ public class UnitServiceImpl implements UnitService{
 
 
         return jsonArray;
-    }*/
+    }
 
 
 

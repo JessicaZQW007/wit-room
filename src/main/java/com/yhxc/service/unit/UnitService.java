@@ -40,8 +40,8 @@ public interface UnitService {
     public JSONArray findNameList(String type,String pId,String unitId);
 
 
-   /* //平台单位和机构下拉联动 ( 状态(state 0)为正常的)
-    public JSONArray findNameAll();*/
+    //平台单位和机构下拉联动 ( 状态(state 0)为正常的)
+    public JSONArray findNameAll();
 
     //根据名称和类型查询
     public Unit findByNameType(String name,String type);

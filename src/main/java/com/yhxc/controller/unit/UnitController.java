@@ -248,14 +248,14 @@ public class UnitController {
 
 
 
-/*
 
-    */
+
+
 /**
      * 下拉联动 ( 状态(state 0)为正常的)
      *
      * @return
-     *//*
+     */
 
     @ResponseBody
     @RequestMapping("/findNameAll")
@@ -264,7 +264,7 @@ public class UnitController {
 
         return new ResultInfo(StatusCode.SUCCESS, "成功！", unitService.findNameAll());
     }
-*/
+
 
 
     //查询所有
