@@ -240,7 +240,11 @@ public class UnitController {
 
         }else if(u.getUserType()==2){
             //机构用户
-            unitId=u.getUnitId();
+            if(type.equals("2")){
+                unitId=u.getUnitId();
+            }else if(type.equals("3")){
+                pId=u.getUnitId();
+            }
         }
 
         return new ResultInfo(StatusCode.SUCCESS, "成功！", unitService.findNameList(type,pId,unitId));
