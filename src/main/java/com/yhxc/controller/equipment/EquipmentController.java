@@ -633,8 +633,8 @@ public class EquipmentController {
      */
     @RequestMapping("/findByUnitId")
     @ResponseBody
-    public ResultInfo findByUnitId(String unitId) {
-        return new ResultInfo(StatusCode.SUCCESS, "SUCCESS", equipmentService.findByUnitId(unitId));
+    public ResultInfo findByUnitId(String unitId,String uuid) {
+        return new ResultInfo(StatusCode.SUCCESS, "SUCCESS", equipmentService.findByUnitId(unitId,uuid));
     }
 
 

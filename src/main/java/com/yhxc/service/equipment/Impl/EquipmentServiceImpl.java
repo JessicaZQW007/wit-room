@@ -372,8 +372,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 
     @Override
-    public JSONArray findByUnitId(String unitId){
-        List<?> datas = equipmentRepository.findByUnitId(unitId);
+    public JSONArray findByUnitId(String unitId,String uuid){
+        List<?> datas = equipmentRepository.findByUnitId(unitId,uuid);
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < datas.size(); i++) {
             Object[] objects = (Object[]) datas.get(i);

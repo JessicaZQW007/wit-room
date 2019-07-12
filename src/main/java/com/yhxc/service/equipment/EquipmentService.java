@@ -151,7 +151,7 @@ public interface EquipmentService {
      * 根据unitID机构ID查询未绑定的设备
      * @return
      */
-    public JSONArray  findByUnitId(String unitId);
+    public JSONArray  findByUnitId(String unitId,String uuid);
 
 
 }
