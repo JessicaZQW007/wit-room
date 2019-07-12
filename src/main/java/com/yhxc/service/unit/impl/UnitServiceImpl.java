@@ -81,9 +81,9 @@ public class UnitServiceImpl implements UnitService{
 
     //查询状态为正常(state 0)的数据
     @Override
-    public JSONArray findNameList(String type){
+    public JSONArray findNameList(String type,String pId,String unitId){
         JSONArray jsonArray=new JSONArray();
-        List<?> datas=unitRepository.findByType(type,0);
+        List<?> datas=unitRepository.findByType(type,0,pId,unitId);
         for (int i = 0; i < datas.size(); i++) {
             Object[] objects = (Object[]) datas.get(i);
             JSONObject jsonObject = new JSONObject();
@@ -149,7 +149,7 @@ public class UnitServiceImpl implements UnitService{
     }*/
 
 
-    //下拉联动 查询状态为正常(state 0)的数据
+   /* //下拉联动 查询状态为正常(state 0)的数据
     @Override
     public JSONArray findNameAll(){
         JSONArray jsonArray=new JSONArray();
@@ -185,7 +185,7 @@ public class UnitServiceImpl implements UnitService{
 
 
         return jsonArray;
-    }
+    }*/
 
 
 

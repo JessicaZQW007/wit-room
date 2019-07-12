@@ -9,6 +9,7 @@ import com.yhxc.entity.unit.Unit;
 import com.yhxc.service.system.LogService;
 import com.yhxc.service.unit.UnitService;
 import com.yhxc.utils.DateUtil;
+import com.yhxc.utils.Jurisdiction;
 import com.yhxc.utils.StringUtil;
 import com.yhxc.utils.UuidUtil;
 import net.sf.json.JSONArray;
@@ -229,19 +230,33 @@ public class UnitController {
     @ResponseBody
     @RequestMapping("/findNameList")
     public ResultInfo findNameList(String type) {
+        User u = Jurisdiction.getCurrentUser();
 
+        String pId="";
+        String unitId="";
+        if(u.getUserType()==1){
+            //平台用户
+            pId=u.getUnitId();
 
-        return new ResultInfo(StatusCode.SUCCESS, "成功！", unitService.findNameList(type));
+        }else if(u.getUserType()==2){
+            //机构用户
+            unitId=u.getUnitId();
+        }
+
+        return new ResultInfo(StatusCode.SUCCESS, "成功！", unitService.findNameList(type,pId,unitId));
     }
 
 
 
+/*
 
-    /**
+    */
+/**
      * 下拉联动 ( 状态(state 0)为正常的)
      *
      * @return
-     */
+     *//*
+
     @ResponseBody
     @RequestMapping("/findNameAll")
     public ResultInfo findNameAll() {
@@ -249,6 +264,7 @@ public class UnitController {
 
         return new ResultInfo(StatusCode.SUCCESS, "成功！", unitService.findNameAll());
     }
+*/
 
 
     //查询所有
