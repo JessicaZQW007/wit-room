@@ -28,7 +28,7 @@ public class RunController {
     @Resource
     private MonthRunTimeCountService monthRunTimeCountService;
     @Resource
-    private YearRunTimeCountService yearRunTimeCountService;
+    private YearRunTimeCountService yearRunTimeCountService;//
 
     /**
      * 统计某天 空调的运行情况
