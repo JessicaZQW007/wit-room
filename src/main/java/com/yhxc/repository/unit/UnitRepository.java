@@ -52,7 +52,7 @@ public interface UnitRepository extends JpaRepository<Unit, String>,JpaSpecifica
             "if(:type !='', type=:type, 1=1 ) " +
             "AND if(:state !='', state=:state, 1=1 ) " +
             "AND if(:pId !='', p_id=:pId, 1=1 ) " +
-            "AND if(:unitId !='', unit_id=:unitId, 1=1 )" , nativeQuery = true)
+            "AND if(:unitId !='', id=:unitId, 1=1 )" , nativeQuery = true)
     public List<?> findByType(@Param("type")String type,@Param("state")Integer state,@Param("pId")String pId,@Param("unitId")String unitId);
 
 
