@@ -370,4 +370,25 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     }
 
+
+    @Override
+    public JSONArray findByUnitId(String unitId){
+        List<?> datas = equipmentRepository.findByUnitId(unitId);
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i < datas.size(); i++) {
+            Object[] objects = (Object[]) datas.get(i);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", objects[0]);
+            jsonObject.put("uuid", objects[1]);
+            jsonObject.put("name", objects[2]);
+            jsonObject.put("brand", objects[3]);
+            jsonObject.put("model", objects[4]);
+            jsonObject.put("nb_card", objects[5]);
+            jsonObject.put("eq_id", objects[6]);
+            jsonObject.put("production_date", objects[7]);
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray;
+    }
+
 }

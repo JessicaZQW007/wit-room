@@ -66,7 +66,7 @@ public class User {
 
 
     @Column(length = 50)
-    private Integer userType;    // 用户类别：1平台用户，2机构用户
+    private Integer userType;    // 1平台用户，2机构用户
 
 
     @Column(length = 50)

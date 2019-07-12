@@ -1,6 +1,7 @@
 package com.yhxc.service.equipment;
 
 import com.yhxc.entity.equipment.Equipment;
+import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.data.repository.query.Param;
@@ -144,5 +145,13 @@ public interface EquipmentService {
      * @return
      */
     public void updateTransrate(int transrate,int voltage,String id);
+
+
+    /**
+     * 根据unitID机构ID查询未绑定的设备
+     * @return
+     */
+    public JSONArray  findByUnitId(String unitId);
+
 
 }

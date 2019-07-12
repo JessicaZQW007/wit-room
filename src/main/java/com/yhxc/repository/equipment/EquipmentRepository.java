@@ -284,6 +284,17 @@ public interface EquipmentRepository extends JpaRepository<Equipment, String>, J
     public String findByEnameBrandModel(@Param("ename")String ename,@Param("brand")String brand,@Param("model")String model);
 
 
+    /**
+     * 根据机构ID查询 所属机构下未绑定的设备
+     * @param unitId
+     * @return
+     */
+    @Query(value = "SELECT  e.id, e.uuid,e.`name`,u.brand,u.model,e.nb_card,p.eq_id,e.production_date FROM t_equipment e   LEFT JOIN  p_project p\n" +
+            "    ON p.eq_id=e.id LEFT JOIN t_equipment_type AS u ON e.eq_type_id = u.id\n" +
+            "    where 1 = 1  and  p.eq_id is null " +
+            "and  if(:unitId !='', e.unitId like CONCAT('%',:unitId,'%'), 1 = 1) " +
+            " ORDER BY e.create_time desc ", nativeQuery = true)
+    public List<?> findByUnitId(@Param("unitId") String unitId);
 
 
 

@@ -2,10 +2,12 @@ package com.yhxc.controller.analyze;
 
 import com.yhxc.common.ResultInfo;
 import com.yhxc.common.StatusCode;
+import com.yhxc.entity.system.User;
 import com.yhxc.service.analyze.EnergyService;
 import com.yhxc.service.count.DayCountElectricService;
 import com.yhxc.service.count.DayRunTimeCountService;
 import com.yhxc.service.count.MonthCountElectricService;
+import com.yhxc.utils.Jurisdiction;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -148,6 +150,9 @@ public class EnergyController {
     @ResponseBody
     @RequestMapping("/findMonthCount")
     public ResultInfo  findMonthCount(String date) {
+        User u = Jurisdiction.getCurrentUser();
+        System.out.println("u.getUnitId="+u.getUnitId());
+        System.out.println("userType="+u.getUserType());
         JSONArray datas=  energyService.findMonthCount(date);
         return new ResultInfo(StatusCode.SUCCESS, "成功！",datas);
     }

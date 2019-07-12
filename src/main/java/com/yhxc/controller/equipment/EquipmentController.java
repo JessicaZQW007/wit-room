@@ -626,4 +626,21 @@ public class EquipmentController {
     }
 
 
+    /**
+     * 根据机构ID（UnitId）查询未绑定的设备
+     *
+     * @return
+     */
+    @RequestMapping("/findByUnitId")
+    @ResponseBody
+    public ResultInfo findByUnitId(String unitId) {
+        return new ResultInfo(StatusCode.SUCCESS, "SUCCESS", equipmentService.findByUnitId(unitId));
+    }
+
+
+
+
+
+
+
 }
