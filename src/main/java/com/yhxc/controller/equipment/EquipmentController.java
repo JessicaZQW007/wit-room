@@ -62,6 +62,18 @@ public class EquipmentController {
     @RequestMapping("/list")
     @ResponseBody
     public ResultInfo list(Equipment equipment, Integer pageNum, Integer pageSize) {
+        User u = Jurisdiction.getCurrentUser();
+
+        if (u.getUserType()==1){
+            //平台用户
+            equipment.setUnitPid(u.getUnitId());
+
+        }else if(u.getUserType()==2){
+            //机构用户
+            equipment.setUnitId(u.getUnitId());
+        }
+
+
         PageHelper.startPage(pageNum, pageSize);
         List<Equipment> list = equipmentService.listEquipmentResPage(equipment, pageNum, pageSize);
         PageInfo<Equipment> page = new PageInfo<Equipment>(list);
@@ -299,8 +311,8 @@ public class EquipmentController {
         // 设置表格标题行
         String[] headers = new String[]{"序号", "设备编号（必填）","设备协议（必填）",  "设备名称（必填）", "设备型号（必填）", "设备品牌（必填）",  "生产时间（必填）","机构类型（必填）" ,"所属机构（必填）" ,"设备状态（必填）","备注"};
         List<Object[]> dataList = new ArrayList<Object[]>();
-        Object[] objects = {"1", "8687440313053832","COP协议",  "星辰智控器", "XC-RTU-JZJF", "星辰",  "2019-01-01 15:08:55","平台单位", "星辰股份","启用","参考格式"};
-        Object[] object2 = {"2", "8687440313053821","TCP协议", "星辰温控设备", "XC-RTU-JZJF", "星辰", "2019-01-01 15:08:55","项目机构", "元泓星辰","停用","参考格式"};
+        Object[] objects = {"1", "8687440313053832","COP协议",  "星辰智控器", "XC-RTU-JZJF", "星辰",  "2019-01-01 15:08:55","平台单位", "平台单位1","启用","参考格式"};
+        Object[] object2 = {"2", "8687440313053821","TCP协议", "星辰温控设备", "XC-RTU-JZJF", "星辰", "2019-01-01 15:08:55","项目机构", "项目机构1","停用","参考格式"};
         dataList.add(0, objects);
         dataList.add(1, object2);
         OutputStream out = null;

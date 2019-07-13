@@ -40,7 +40,7 @@
         ON p.eq_id=e.id
         LEFT JOIN t_equipment_type AS u ON e.eq_type_id = u.id
         LEFT JOIN t_unit AS n ON e.unit_id = n.id
-        where 1 = 1
+        where 1 = 1 and e.unit_id=n.id
         <!-- 根据设备主键查询 -->
         <if test="id != null and id != ''">
             and e.id = #{id}
@@ -66,6 +66,16 @@
         <if test="statdate != null and statdate != ''">
             and    substr(e.create_time,1,10)    BETWEEN  #{statdate}  and  #{enddate}
         </if>
+        <!-- 权限查询 平台查询该平台下的所有机构的设备，  机构查询自己的设备 -->
+        <if test="unitPid != null and unitPid != ''">
+            and    n.p_id = #{unitPid}
+        </if>
+
+        <if test="unitId != null and unitId != ''">
+            and    e.unit_id = #{unitId}
+        </if>
+
+
         ORDER by e.create_time desc
     </select>
 

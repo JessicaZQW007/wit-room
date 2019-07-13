@@ -55,8 +55,7 @@ Equipment {
     @Column(length=255)
     private String  unitId;//所属机构ID
 
-   /* @Column(length=255)
-    private String  unitPid;//上级平台ID*/
+
 
     @Column(length = 100)
     private Integer state;   //设备状态  1：启用，2：停用
