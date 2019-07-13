@@ -1,6 +1,7 @@
 package com.yhxc.repository.system;
 
 import com.yhxc.entity.system.User;
+import com.yhxc.entity.unit.Unit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -130,4 +131,29 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
      */
     @Query(value = "SELECT project_id FROM t_user WHERE user_name = :userName", nativeQuery = true)
     public String projectIds(@Param("userName") String userName);
+
+
+    /**
+     * 分页 多条件查询用户
+     * @return
+     */
+    @Query(value = "select r.* from t_user r,t_unit t where r.unit_id=t.id  " +
+            "AND if(:pId != '' , t.p_id=:pId, 1 = 1 ) " +
+            "AND if(:type !='' , r.type=:type, 1=1 ) " +
+            "AND if(:userName != '' , r.user_name LIKE CONCAT('%',:userName,'%') , 1 = 1 ) " +
+            "limit :pageNum,:pageSize ", nativeQuery = true)
+    public List<User> findAllListPage(@Param("pId")String pId, @Param("type")String type, @Param("userName")String userName, @Param("pageNum")int pageNum, @Param("pageSize") int pageSize);
+
+
+    /**
+     * 分页 多条件查询用户 统计数量
+     * @return
+     */
+    @Query(value = "select count(*) from t_user r,t_unit t where r.unit_id=t.id  " +
+            "AND if(:pId != '' , t.p_id=:pId, 1 = 1 ) " +
+            "AND if(:type !='' , r.type=:type, 1=1 ) " +
+            "AND if(:userName != '' , r.user_name LIKE CONCAT('%',:userName,'%') , 1 = 1 )", nativeQuery = true)
+    public int findAllListCount(@Param("pId")String pId, @Param("type")String type, @Param("userName")String userName);
+
+
 }

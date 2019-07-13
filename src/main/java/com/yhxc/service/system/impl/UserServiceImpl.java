@@ -4,6 +4,7 @@ import com.yhxc.common.PageInfo;
 import com.yhxc.common.ResultInfo;
 import com.yhxc.common.StatusCode;
 import com.yhxc.entity.system.User;
+import com.yhxc.entity.unit.Unit;
 import com.yhxc.repository.system.UserRepository;
 import com.yhxc.service.system.UserService;
 import com.yhxc.utils.StringUtil;
@@ -208,5 +209,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> listOrganizationByOrganization(String organizationId) {
         return userRepository.listOrganizationByOrganization(organizationId);
+    }
+
+
+
+
+    @Override
+    public List<User> findAllListPage(String pId, String type,String userName, int pageNum, int pageSize ){
+        List<User> userList=userRepository.findAllListPage(pId,type,userName,pageNum,pageSize);
+
+
+
+        return userList;
+    }
+
+
+
+    @Override
+    public int findAllListCount(String pId, String type,String userName ){
+        int num=userRepository.findAllListCount(pId,type,userName);
+
+
+        return num;
     }
 }

@@ -14,6 +14,7 @@ import com.yhxc.service.system.UserRoleService;
 import com.yhxc.service.system.UserService;
 import com.yhxc.utils.*;
 import com.yhxc.utils.sms.SmsUtil;
+import net.sf.json.JSONArray;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -150,12 +151,16 @@ public class UserController {
 //    }
 
 
+
+
+
+
     /**
      * 查询用户列表
      * @param user
      * @return
      * @throws Exception
-     */
+     *//*
     @ResponseBody
     @RequestMapping("/list")
     public ResultInfo listPage(User user, Integer pageNum, Integer pageSize) throws Exception {
@@ -171,6 +176,37 @@ public class UserController {
         System.out.println("Jurisdiction.getQX()="+Jurisdiction.getQX());
 
         return new ResultInfo(StatusCode.SUCCESS, "成功！", p.getContent(), pi, Jurisdiction.getQX());
+    }*/
+
+    /**
+     * 查询用户列表
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/list")
+    public ResultInfo listPage(String type,String userName,int pageNum, int pageSize)  {
+        pageNum=(pageNum - 1) * pageSize;
+
+        User u = Jurisdiction.getCurrentUser();
+
+        String pId="";
+        System.out.println("u.getUserType="+u.getUserType());
+        if(u.getUserType()==0){
+
+        }
+        else if(u.getUserType()==1){
+            //平台用户
+            pId=u.getUnitId();
+        }else if(u.getUserType()==2){
+            //机构用户
+            pId=u.getUnitId();
+        }
+
+        List<User> datas=  userService.findAllListPage(pId,type,userName,pageNum,pageSize);
+        int num=userService.findAllListCount(pId,type,userName);
+
+
+        return new ResultInfo(StatusCode.SUCCESS, "成功！", datas,num);
     }
 
 

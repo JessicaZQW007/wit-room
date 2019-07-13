@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yhxc.common.ResultInfo;
+import com.yhxc.entity.unit.Unit;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort.Direction;
 
@@ -67,5 +68,17 @@ public interface UserService {
 	public List<User> listDealerByDealer(String dealerId);
 
 	public List<User> listOrganizationByOrganization(String organizationId);
+
+
+
+
+
+	//多条件查询用户 分页
+	public List<User> findAllListPage(String pId,String type, String userName, int pageNum, int pageSize );
+
+	//多条件查询用户 数据数量
+	public int findAllListCount(String pId,String type, String userName);
+
+
 
 }
