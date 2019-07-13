@@ -126,6 +126,7 @@ public class IndexController {
             for (int k = 0; k < jsonArray.size(); k++) {
                 String runCoolNow1;
                 runCoolNow1=jsonArray.getJSONObject(k).getString("runDate");
+                System.out.println("runCoolNow1="+runCoolNow1);
                 runCoolNow=Double.valueOf(runCoolNow1);
             }
             jsonObject.put("runNow",runNow);//本日的运行时间

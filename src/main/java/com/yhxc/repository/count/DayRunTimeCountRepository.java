@@ -104,7 +104,7 @@ public interface DayRunTimeCountRepository extends JpaRepository<DayRunTimeCount
      * @author lwg
      *
      */
-    @Query(value = "SELECT i.uuid,i.receive_date,  ( SELECT CASE WHEN(i.kt_run_model1=\"制冷\"  and i.ktccurrent1>1  ) THEN 2 ELSE 0 END   )AS Gender  from s_receive_data i where substr(i.receive_date,1,10)=:date  and uuid=:uuid  order by i.uuid,i.receive_date   ", nativeQuery = true)
+    @Query(value = "SELECT i.uuid,i.receive_date,  ( SELECT CASE WHEN(i.kt_run_model1=\"制冷\"    ) THEN 2 ELSE 0 END   )AS Gender  from s_receive_data i where substr(i.receive_date,1,10)=:date  and uuid=:uuid  order by i.uuid,i.receive_date   ", nativeQuery = true)
     public List<?> countDayRunTimecool1(@Param("date") String date,@Param("uuid") String uuid);
 
 
@@ -114,7 +114,7 @@ public interface DayRunTimeCountRepository extends JpaRepository<DayRunTimeCount
      * @author lwg
      *
      */
-    @Query(value = "SELECT i.uuid,i.receive_date,  ( SELECT CASE WHEN(i.kt_run_model2=\"制冷\" and i.ktccurrent2>1   ) THEN 2 ELSE 0 END   )AS Gender  from s_receive_data i where substr(i.receive_date,1,10)=:date  and uuid=:uuid  order by i.uuid,i.receive_date", nativeQuery = true)
+    @Query(value = "SELECT i.uuid,i.receive_date,  ( SELECT CASE WHEN(i.kt_run_model2=\"制冷\"    ) THEN 2 ELSE 0 END   )AS Gender  from s_receive_data i where substr(i.receive_date,1,10)=:date  and uuid=:uuid  order by i.uuid,i.receive_date", nativeQuery = true)
     public List<?> countDayRunTimecool2(@Param("date") String date,@Param("uuid") String uuid);
 
 
@@ -125,7 +125,7 @@ public interface DayRunTimeCountRepository extends JpaRepository<DayRunTimeCount
      * @author lwg
      *
      */
-    @Query(value = "SELECT i.uuid,i.receive_date, ( SELECT CASE WHEN(i.kt_run_model1=\"制冷\" and i.ktccurrent1>1  ) THEN 2 ELSE 0 END   )AS Gender  from s_receive_data i where substr(i.receive_date,1,10)=:date  order by i.uuid,i.receive_date ", nativeQuery = true)
+    @Query(value = "SELECT i.uuid,i.receive_date, ( SELECT CASE WHEN(i.kt_run_model1=\"制冷\"  ) THEN 2 ELSE 0 END   )AS Gender  from s_receive_data i where substr(i.receive_date,1,10)=:date  order by i.uuid,i.receive_date ", nativeQuery = true)
     public List<?> countDayRuncoolTime1(@Param("date") String date);
 
 
@@ -135,7 +135,7 @@ public interface DayRunTimeCountRepository extends JpaRepository<DayRunTimeCount
      * @author lwg
      *
      */
-    @Query(value = "SELECT i.uuid,i.receive_date, ( SELECT CASE WHEN(i.kt_run_model2=\"制冷\"  and i.ktccurrent2>1  ) THEN 2 ELSE 0 END   )AS Gender  from s_receive_data i where substr(i.receive_date,1,10)=:date  order by i.uuid,i.receive_date ", nativeQuery = true)
+    @Query(value = "SELECT i.uuid,i.receive_date, ( SELECT CASE WHEN(i.kt_run_model2=\"制冷\"  ) THEN 2 ELSE 0 END   )AS Gender  from s_receive_data i where substr(i.receive_date,1,10)=:date  order by i.uuid,i.receive_date ", nativeQuery = true)
     public List<?> countDayRuncoolTime2(@Param("date") String date);
 
 

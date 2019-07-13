@@ -44,7 +44,7 @@ public class DayRunTimeCountServiceImpl implements DayRunTimeCountService {
 
     @PersistenceContext
     private EntityManager em;
-    private static Double mixCurrent=0.1;//判断电流大于多少是运行
+    private static Double mixCurrent=0.01;//判断电流大于多少是运行
 
 
     @Override
@@ -438,10 +438,7 @@ public class DayRunTimeCountServiceImpl implements DayRunTimeCountService {
         String maxtime=dayRunTimeCountRepository.maxtime(date,uuid);
         //airnum 第几台空调
         String dataSql="SELECT i.uuid,i.receive_date, ( SELECT CASE WHEN(i.kt_run_model" +airNum+
-                "=\"制冷\" " +
-                " and i.ktccurrent"+airNum+
-                ">1" +
-                " ) THEN 2 ELSE 0 END   )AS Gender from  s_receive_data i where  ";
+                "=\"制冷\" ) THEN 2 ELSE 0 END   )AS Gender from  s_receive_data i where  ";
 
 
         if(StringUtil.isNotEmpty(uuid)) {
@@ -633,6 +630,7 @@ public class DayRunTimeCountServiceImpl implements DayRunTimeCountService {
             index++;
             SimpleDateFormat myFmt=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             float electric = Float.parseFloat(retValue.getJSONObject(i).getString("electric"));
+            System.out.println("electric="+electric);
             Date date1 = null;
             String  date = retValue.getJSONObject(i).getString("date");
             String uuid = retValue.getJSONObject(i).getString("uuid");
@@ -650,6 +648,7 @@ public class DayRunTimeCountServiceImpl implements DayRunTimeCountService {
                 thisflag= false;
             }
             float ele = electric;
+            System.out.println("ele="+ele);
             if(thisflag){
                 if(runDate>mixCurrent){
                     runDateZ+=runDate;
@@ -667,8 +666,10 @@ public class DayRunTimeCountServiceImpl implements DayRunTimeCountService {
                     }
                     endDate= ((stdate.getTime()-beginDate.getTime()));
                     endDate= endDate % (1000 * 60 * 60 * 24)/(1000 * 60 * 60);
+                    System.out.println("endDate1="+endDate);
                     BigDecimal bg = new BigDecimal(endDate);
                     endDate = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    System.out.println("endDate1四舍五入后="+endDate);
                     runDateZ+=endDate;
                 }
                 JSONObject jsonObject=new JSONObject();
@@ -693,8 +694,11 @@ public class DayRunTimeCountServiceImpl implements DayRunTimeCountService {
                 stopflag =false;
                 runDate = (stopDate.getTime()-beginDate.getTime());
                 runDate= (runDate % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+                System.out.println("rundate1="+runDate);
                 BigDecimal bg = new BigDecimal(runDate);
                 runDate = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                System.out.println("rundate四舍五入后="+runDate);
+
             }
 
             if(thisflag){
@@ -718,8 +722,10 @@ public class DayRunTimeCountServiceImpl implements DayRunTimeCountService {
                     }
                     endDate= ((stdate.getTime()-beginDate.getTime()));
                     endDate= endDate % (1000 * 60 * 60 * 24)/(1000 * 60 * 60);
+                    System.out.println("endDate2="+endDate);
                     BigDecimal bg = new BigDecimal(endDate);
                     endDate = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    System.out.println("endDate2四舍五入后="+endDate);
                     runDateZ+=endDate;
                 }
 
