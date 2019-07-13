@@ -49,7 +49,7 @@ public interface ProjectService {
 	 *
 	 */
 
-	public JSONObject pageList( String projectType,String address, String pname, String allDate, int pageNum, int pageSize);
+	public JSONObject pageList( String projectType,String address, String pname, String allDate,String pId,String unitId, int pageNum, int pageSize);
 
 
 	/**校验输入地址是否正确
@@ -110,4 +110,12 @@ public interface ProjectService {
 
 	 */
 	public Project findByEqId(String eq_id);
+
+
+	/**
+	 * 多条件分权限查询所有项目
+	 */
+	public List<Project> findList(String pId,String unitId);
+
+
 }

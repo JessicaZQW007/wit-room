@@ -141,7 +141,7 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public JSONObject pageList(String projectType,String address, String pname, String allDate, int pageNum, int pageSize) {
+	public JSONObject pageList(String projectType,String address, String pname, String allDate,String pId,String unitId, int pageNum, int pageSize) {
 		JSONObject jsonObject2 = new JSONObject();
 		String startDate="";
 		String endDate="";
@@ -150,8 +150,8 @@ public class ProjectServiceImpl implements ProjectService {
 			endDate = allDate.substring(11, 21);
 		}
 		pageNum=(pageNum-1)*pageSize;
-		List<?> datas = projectRepository.pageList( projectType,address,pname,startDate,endDate,pageNum,pageSize);
-		int datascount = projectRepository.pageListCout( projectType,address,pname,startDate,endDate);
+		List<?> datas = projectRepository.pageList( projectType,address,pname,startDate,endDate,pId,unitId,pageNum,pageSize);
+		int datascount = projectRepository.pageListCout( projectType,address,pname,startDate,endDate,pId,unitId);
 		JSONArray jsonArray = new JSONArray();
 		for (int i = 0; i < datas.size(); i++) {
 			Object[] objects = (Object[]) datas.get(i);
@@ -254,6 +254,13 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public Project findByEqId(String eq_id) {
 		return projectRepository.findByEqId(eq_id);
+	}
+
+
+	@Override
+	public List<Project> findList(String pId,String unitId){
+
+		return projectRepository.findList(pId,unitId);
 	}
 
 }

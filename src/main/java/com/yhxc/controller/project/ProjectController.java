@@ -299,7 +299,20 @@ public class ProjectController {
     @ResponseBody
     @RequestMapping("/pageList")
     public ResultInfo pageList(String projectType,String address, String pname, String allDate, int pageNum, int pageSize ) {
-        JSONObject datas=projectService.pageList(projectType,address,pname,allDate,pageNum,pageSize);
+        User u = Jurisdiction.getCurrentUser();
+        String pId="";
+        String unitId="";
+
+        if(u.getUserType()==1){
+            //平台用户
+            pId=u.getUnitId();
+
+        }else if(u.getUserType()==2){
+            //机构用户
+            unitId=u.getUnitId();
+        }
+
+        JSONObject datas=projectService.pageList(projectType,address,pname,allDate,pId,unitId,pageNum,pageSize);
         return new ResultInfo(StatusCode.SUCCESS, "成功！",datas);
     }
 
@@ -368,6 +381,17 @@ public class ProjectController {
     }
 
 
+   /* *//**
+     * 获取项目列表
+     * @return
+     *//*
+    @ResponseBody
+    @RequestMapping("/findAll")
+    public ResultInfo findAll() {
+        return new ResultInfo(StatusCode.SUCCESS, "success", projectService.findAll());
+    }*/
+
+
     /**
      * 获取项目列表
      * @return
@@ -375,9 +399,25 @@ public class ProjectController {
     @ResponseBody
     @RequestMapping("/findAll")
     public ResultInfo findAll() {
-        return new ResultInfo(StatusCode.SUCCESS, "success", projectService.findAll());
-    }
+        User u = Jurisdiction.getCurrentUser();
 
+        String pId="";
+        String unitId="";
+
+        if(u.getUserType()==1){
+            //平台用户
+            pId=u.getUnitId();
+        }else if(u.getUserType()==2){
+            //机构用户
+            unitId=u.getUnitId();
+
+        }
+
+
+
+
+        return new ResultInfo(StatusCode.SUCCESS, "success", projectService.findList(pId,unitId));
+    }
 
 
 

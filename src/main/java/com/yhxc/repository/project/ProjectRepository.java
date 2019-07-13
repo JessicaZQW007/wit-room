@@ -25,26 +25,30 @@ public interface ProjectRepository extends JpaRepository<Project, String>,JpaSpe
     /**查询所有的项目
      * @param
      */
-    @Query(value = " SELECT   p.id,p.pname,p.address,p.type,p.equipment_num,p.puser,p.puser_phone ,p.createtime ,p.status ,p.location,p.img,p.room_area,e.uuid  from   p_project p LEFT JOIN t_equipment e   ON p.eq_id=e.id where 1=1  " +
+    @Query(value = " SELECT   p.id,p.pname,p.address,p.type,p.equipment_num,p.puser,p.puser_phone ,p.createtime ,p.status ,p.location,p.img,p.room_area,e.uuid  from   p_project p LEFT JOIN t_equipment e   ON p.eq_id=e.id LEFT JOIN t_unit AS u ON p.unit_id = u.id where 1=1 and p.unit_id=u.id " +
             " AND   if(:address !='', p.address like CONCAT('%',:address,'%'), 1 = 1) " +
             "and  if(:pname !='', p.pname like CONCAT('%',:pname,'%'), 1 = 1) " +
             "and  if(:projectType !='', p.type like CONCAT('%',:projectType,'%'), 1 = 1) " +
-            "and  if(:statDate !='', p.createtime BETWEEN :statDate  and :endDate, 1 = 1)  " +
+            "and  if(:statDate !='', p.createtime BETWEEN :statDate  and :endDate, 1 = 1) " +
+            "AND if(:pId !='', u.p_id=:pId, 1=1 )  " +
+            "AND if(:unitId !='', p.unit_id=:unitId, 1=1 ) " +
             " ORDER BY p.createtime DESC  limit :pageNum,:pageSize ", nativeQuery = true)
-    public List<?> pageList(@Param("projectType") String projectType,@Param("address") String address,@Param("pname") String pname,@Param("statDate") String statDate,@Param("endDate") String endDate,@Param("pageNum") int pageNum,@Param("pageSize") int pageSize);
+    public List<?> pageList(@Param("projectType") String projectType,@Param("address") String address,@Param("pname") String pname,@Param("statDate") String statDate,@Param("endDate") String endDate,@Param("pId") String pId,@Param("unitId") String unitId,@Param("pageNum") int pageNum,@Param("pageSize") int pageSize);
 
 
 
     /**查询所有的项目数量
      * @param
      */
-    @Query(value = " SELECT   count(p.pname)    from   p_project p LEFT JOIN t_equipment e   ON p.eq_id=e.id where 1=1  " +
+    @Query(value = " SELECT   count(p.pname)    from   p_project p LEFT JOIN t_equipment e   ON p.eq_id=e.id  LEFT JOIN t_unit AS u ON p.unit_id = u.id where 1=1  and p.unit_id=u.id" +
             " and if(:address !='', p.address like CONCAT('%',:address,'%'), 1 = 1) " +
             " and  if(:projectType !='', p.type like CONCAT('%',:projectType,'%'), 1 = 1) " +
             "and  if(:pname !='', p.pname like CONCAT('%',:pname,'%'), 1 = 1) " +
-            "and  if(:statDate !='', p.createtime BETWEEN :statDate  and :endDate, 1 = 1)  " +
+            "and  if(:statDate !='', p.createtime BETWEEN :statDate  and :endDate, 1 = 1) " +
+            "AND if(:pId !='', u.p_id=:pId, 1=1 )  " +
+            "AND if(:unitId !='', p.unit_id=:unitId, 1=1 )  " +
             " ORDER BY p.createtime DESC  ", nativeQuery = true)
-    public int pageListCout(@Param("projectType") String projectType,@Param("address") String address,@Param("pname") String pname,@Param("statDate") String statDate,@Param("endDate") String endDate);
+    public int pageListCout(@Param("projectType") String projectType,@Param("address") String address,@Param("pname") String pname,@Param("statDate") String statDate,@Param("endDate") String endDate,@Param("pId") String pId,@Param("unitId") String unitId);
 
 
 
@@ -204,6 +208,15 @@ public interface ProjectRepository extends JpaRepository<Project, String>,JpaSpe
      */
     @Query(value = "SELECT  * from p_project  where eq_id=:eq_id ", nativeQuery = true)
     public Project findByEqId(@Param("eq_id") String eq_id);
+
+    /**
+     * 多条件分权限查询所有项目
+
+     */
+    @Query(value = "select p.* FROM p_project p,t_unit u where p.unit_id=u.id " +
+            " AND if(:pId !='', u.p_id=:pId, 1=1 ) " +
+            " AND if(:unitId !='', p.unit_id=:unitId, 1=1 ) ", nativeQuery = true)
+    public List<Project> findList(@Param("pId") String pId,@Param("unitId") String unitId);
 
 
 }

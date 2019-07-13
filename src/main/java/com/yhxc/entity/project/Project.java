@@ -54,14 +54,13 @@ public class Project  {
     @Column(length=100)
     private String unitId;//机构ID
 
-    @Column(length=255)
-    private String  unitPid;//上级平台单位ID
+
 
     @Column(length=255)
-    private Integer  transrate;//互感器倍率 默认380V
+    private Integer  transrate;//互感器倍率 默认1
 
     @Column(length=255)
-    private Integer  voltage;//设备电压 默认1
+    private Integer  voltage;//设备电压 默认380V
 
 
 
@@ -220,13 +219,7 @@ public class Project  {
         this.voltage = voltage;
     }
 
-    public String getUnitPid() {
-        return unitPid;
-    }
 
-    public void setUnitPid(String unitPid) {
-        this.unitPid = unitPid;
-    }
 
     @Override
     public String toString() {
