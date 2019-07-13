@@ -24,8 +24,8 @@ public class UnitServiceImpl implements UnitService{
 
 
     @Override
-    public List<Unit> findAllListPage(String type, String name, int pageNum, int pageSize ){
-        List<Unit> unitList=unitRepository.findAllListPage(type,name,pageNum,pageSize);
+    public List<Unit> findAllListPage(String type, String name,String pId, int pageNum, int pageSize ){
+        List<Unit> unitList=unitRepository.findAllListPage(type,name,pId,pageNum,pageSize);
 
 
 
@@ -35,8 +35,8 @@ public class UnitServiceImpl implements UnitService{
 
 
     @Override
-    public int findAllListCount(String type, String name ){
-        int num=unitRepository.findAllListCount(type,name);
+    public int findAllListCount(String type, String name,String pId ){
+        int num=unitRepository.findAllListCount(type,name,pId);
 
 
         return num;
@@ -199,6 +199,13 @@ public class UnitServiceImpl implements UnitService{
         Unit unit=unitRepository.findByNameType(name,type);
 
         return  unit;
+    }
+
+    @Override
+    public void updateName(String name,String id){
+
+        unitRepository.updateName(name,id);
+
     }
 
 

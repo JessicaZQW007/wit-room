@@ -12,6 +12,7 @@ import com.yhxc.service.system.LogService;
 import com.yhxc.service.system.RoleService;
 import com.yhxc.service.system.UserRoleService;
 import com.yhxc.service.system.UserService;
+import com.yhxc.service.unit.UnitService;
 import com.yhxc.utils.*;
 import com.yhxc.utils.sms.SmsUtil;
 import net.sf.json.JSONArray;
@@ -41,6 +42,9 @@ public class UserController {
     private UserRoleService userRoleService;
     @Resource
     private LogService logService;
+
+    @Resource
+    private UnitService unitService;
 
     /**
      * 修改密码
@@ -273,7 +277,17 @@ public class UserController {
             }
             user.setType(u.getType());
             user.setCreateTime(u.getCreateTime());
+
+
+            //修改单位名称
+            unitService.updateName(user.getUnit(),user.getUnitId());
+
             logService.save(new Log(Log.UPDATE_ACTION, "更新用户信息" + user));
+
+
+
+
+
         } else {
             user.setPassword(MD5.md5(user.getPassword(), Constant.SALT));
             user.setCreateTime(DateUtil.getTime());

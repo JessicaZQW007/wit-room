@@ -16,15 +16,17 @@ public interface UnitRepository extends JpaRepository<Unit, String>,JpaSpecifica
     //    查询平台单位或者项目机构的全部信息
     @Query(value = "select * from t_unit  WHERE if(:type !='', type=:type, 1=1 ) " +
             "AND if(:name != '' , name LIKE CONCAT('%',:name,'%') , 1 = 1 ) " +
+            "AND if(:pId != '' , p_id =:pId , 1 = 1 ) " +
             "limit :pageNum,:pageSize", nativeQuery = true)
-    public List<Unit> findAllListPage(@Param("type")String type, @Param("name")String name,  @Param("pageNum")int pageNum, @Param("pageSize") int pageSize);
+    public List<Unit> findAllListPage(@Param("type")String type, @Param("name")String name,@Param("pId")String pId,  @Param("pageNum")int pageNum, @Param("pageSize") int pageSize);
 
 
 
     //    统计平台单位或者项目机构的全部数量
     @Query(value = "select count(*) from t_unit  WHERE if(:type !='', type=:type, 1=1 ) " +
-            "AND if(:name != '' , name LIKE CONCAT('%',:name,'%') , 1 = 1 ) ", nativeQuery = true)
-    public int findAllListCount(@Param("type")String type, @Param("name")String name);
+            "AND if(:name != '' , name LIKE CONCAT('%',:name,'%') , 1 = 1 ) " +
+            "AND if(:pId != '' , p_id =:pId , 1 = 1 ) ", nativeQuery = true)
+    public int findAllListCount(@Param("type")String type, @Param("name")String name,@Param("pId")String pId);
 
 
     //    根据ID查询数据
@@ -76,6 +78,13 @@ public interface UnitRepository extends JpaRepository<Unit, String>,JpaSpecifica
             "if(:pId !='', p_id=:pId, 1=1 ) " +
             "AND if(:state !='', state=:state, 1=1 ) " , nativeQuery = true)
     public List<?> findByPId(@Param("pId")String pId,@Param("state")int state);
+
+
+    //根据ID修改单位名称
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE t_unit set name = :name where id = :id ", nativeQuery = true)
+    public void updateName(@Param("name") String name,@Param("id") String id);
 
 
 }

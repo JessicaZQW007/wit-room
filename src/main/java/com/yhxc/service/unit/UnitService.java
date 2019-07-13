@@ -21,10 +21,10 @@ public interface UnitService {
 
 
     //查询平台单位或者项目机构的全部信息 分页
-    public List<Unit> findAllListPage(String type, String name, int pageNum, int pageSize );
+    public List<Unit> findAllListPage(String type, String name,String pId ,int pageNum, int pageSize );
 
     //查询平台单位或者项目机构的全部信息 分页
-    public int findAllListCount(String type, String name);
+    public int findAllListCount(String type, String name,String pId);
 
     //根据ID查询数据
     public Unit findOneById(String id);
@@ -47,6 +47,8 @@ public interface UnitService {
     public Unit findByNameType(String name,String type);
 
 
+    //根据ID修改单位名称
+    public void updateName(String name,String id);
 
 
 

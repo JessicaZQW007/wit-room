@@ -50,8 +50,21 @@ public class UnitController {
     @RequestMapping("/findList")
     public ResultInfo findList(String type,String name,int pageNum, int pageSize) {
         pageNum=(pageNum - 1) * pageSize;
-        List<Unit> unitList=unitService.findAllListPage(type,name,pageNum,pageSize);
-        int num=unitService.findAllListCount(type,name);
+        User u = Jurisdiction.getCurrentUser();
+        String pId="";
+
+        if(u.getUserType()==1){
+            //平台用户
+            pId=u.getUnitId();
+
+        }else if(u.getUserType()==2){
+            //机构用户
+            pId=u.getUnitId();
+        }
+
+
+        List<Unit> unitList=unitService.findAllListPage(type,name,pId,pageNum,pageSize);
+        int num=unitService.findAllListCount(type,name,pId);
 
         return new ResultInfo(StatusCode.SUCCESS, "成功！", unitList,num);
     }
