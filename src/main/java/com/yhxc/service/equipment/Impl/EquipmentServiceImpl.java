@@ -274,7 +274,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
-    public JSONObject pageList(String projectType, String address, String pname, String allDate,String runStatus, int pageNum, int pageSize) {
+    public JSONObject pageList(String pId,String unitId,String projectType, String address, String pname, String allDate,String runStatus, int pageNum, int pageSize) {
         JSONObject jsonObject2 = new JSONObject();
         String startDate="";
         String endDate="";
@@ -283,8 +283,8 @@ public class EquipmentServiceImpl implements EquipmentService {
             endDate = allDate.substring(11, 21);
         }
         pageNum=(pageNum-1)*pageSize;
-        List<?> datas = equipmentRepository.findrunStatusPage( projectType,address,pname,startDate,endDate,runStatus,pageNum,pageSize);
-        int datascount = equipmentRepository.findrunStatusCount( projectType,address,pname,startDate,endDate,runStatus);
+        List<?> datas = equipmentRepository.findrunStatusPage( pId,unitId,projectType,address,pname,startDate,endDate,runStatus,pageNum,pageSize);
+        int datascount = equipmentRepository.findrunStatusCount( pId,unitId, projectType,address,pname,startDate,endDate,runStatus);
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < datas.size(); i++) {
             Object[] objects = (Object[]) datas.get(i);

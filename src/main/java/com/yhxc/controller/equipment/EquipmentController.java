@@ -632,7 +632,23 @@ public class EquipmentController {
     @ResponseBody
     @RequestMapping("/pageList")
     public ResultInfo pageList(String projectType, String address, String pname, String allDate, String runStatus, int pageNum, int pageSize) {
-        JSONObject datas = equipmentService.pageList(projectType, address, pname, allDate, runStatus, pageNum, pageSize);
+        User u=Jurisdiction.getCurrentUser();
+        String pId="";
+        String unitId="";
+
+        if(u.getUserType()==1){
+            //平台用户
+            pId=u.getUnitId();
+
+        }else if(u.getUserType()==2){
+            //机构用户
+            unitId=u.getUnitId();
+
+        }
+
+
+
+        JSONObject datas = equipmentService.pageList(pId,unitId,projectType, address, pname, allDate, runStatus, pageNum, pageSize);
         return new ResultInfo(StatusCode.SUCCESS, "成功！", datas);
     }
     /**

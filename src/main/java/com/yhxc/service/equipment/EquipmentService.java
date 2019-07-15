@@ -110,7 +110,7 @@ public interface EquipmentService {
      * 查询项目中设备运行状态（分页）
      *
      */
-    public JSONObject pageList( String projectType,String address, String pname, String allDate,String runStatus ,int pageNum, int pageSize);
+    public JSONObject pageList(String pId,String unitId, String projectType,String address, String pname, String allDate,String runStatus ,int pageNum, int pageSize);
 
 
 

@@ -193,15 +193,17 @@ public interface EquipmentRepository extends JpaRepository<Equipment, String>, J
             " end aa ,xx3.uuid from (\n" +
             "select x3.receive_date,e.uuid,x3.board_data_report_interval   \n" +
             "from  t_equipment e  left   join  (SELECT * from s_receive_data where   id in (  select max(id) from s_receive_data group by uuid)  ) x3  on   e.uuid=x3.uuid         \n" +
-            " group by e.uuid) xx3) xxx3 ,t_equipment e,p_project p where xxx3.uuid=e.uuid and p.eq_id=e.id " +
-            " AND   if(:address !='', p.address like CONCAT('%',:address,'%'), 1 = 1) " +
+            " group by e.uuid) xx3) xxx3 ,t_equipment e,p_project p,t_unit u where xxx3.uuid=e.uuid and p.eq_id=e.id and e.unit_id=u.id and p.unit_id=u.id " +
+            "AND  if(:pId != '' , u.p_id =:pId , 1 = 1 ) " +
+            "AND  if(:unitId != '' , e.unit_id =:unitId , 1 = 1 ) " +
+            "AND  if(:address !='', p.address like CONCAT('%',:address,'%'), 1 = 1) " +
             "and  if(:pname !='', p.pname like CONCAT('%',:pname,'%'), 1 = 1) " +
             "and  if(:runStatus !='', xxx3.aa like CONCAT('%',:runStatus,'%'), 1 = 1) " +
             "and  if(:projectType !='', p.type like CONCAT('%',:projectType,'%'), 1 = 1) " +
             "and  if(:statDate !='', p.createtime BETWEEN :statDate  and :endDate, 1 = 1)  " +
             " ORDER BY p.createtime desc  limit :pageNum,:pageSize  ", nativeQuery = true)
 
-    public List<?> findrunStatusPage(@Param("projectType") String projectType,@Param("address") String address,@Param("pname") String pname,@Param("statDate") String statDate,@Param("endDate") String endDate, @Param("runStatus") String runStatus,  @Param("pageNum") int pageNum,@Param("pageSize") int pageSize);
+    public List<?> findrunStatusPage(@Param("pId") String pId ,@Param("unitId") String unitId,@Param("projectType") String projectType,@Param("address") String address,@Param("pname") String pname,@Param("statDate") String statDate,@Param("endDate") String endDate, @Param("runStatus") String runStatus,  @Param("pageNum") int pageNum,@Param("pageSize") int pageSize);
 
 
     /**
@@ -213,7 +215,9 @@ public interface EquipmentRepository extends JpaRepository<Equipment, String>, J
             " end aa ,xx3.uuid from (\n" +
             "select x3.receive_date,e.uuid,x3.board_data_report_interval\n" +
             "from  t_equipment e  left    join  (SELECT * from s_receive_data where   id in (  select max(id) from s_receive_data group by uuid)  ) x3  on   e.uuid=x3.uuid        " +
-            " group by e.uuid) xx3) xxx3 ,t_equipment e,p_project p where xxx3.uuid=e.uuid and p.eq_id=e.id " +
+            " group by e.uuid) xx3) xxx3 ,t_equipment e,p_project p,t_unit u where xxx3.uuid=e.uuid and p.eq_id=e.id and e.unit_id=u.id and p.unit_id=u.id " +
+            "AND  if(:pId != '' , u.p_id =:pId , 1 = 1 )" +
+            "AND  if(:unitId != '' , e.unit_id =:unitId , 1 = 1 )  " +
             " AND   if(:address !='', p.address like CONCAT('%',:address,'%'), 1 = 1) " +
             "and  if(:pname !='', p.pname like CONCAT('%',:pname,'%'), 1 = 1) " +
             "and  if(:runStatus !='', xxx3.aa like CONCAT('%',:runStatus,'%'), 1 = 1) " +
@@ -221,7 +225,7 @@ public interface EquipmentRepository extends JpaRepository<Equipment, String>, J
             "and  if(:statDate !='', p.createtime BETWEEN :statDate  and :endDate, 1 = 1)  " +
             " ORDER BY p.createtime desc  ", nativeQuery = true)
 
-    public int findrunStatusCount(@Param("projectType") String projectType,@Param("address") String address,@Param("pname") String pname,@Param("statDate") String statDate,@Param("endDate") String endDate,@Param("runStatus") String runStatus);
+    public int findrunStatusCount(@Param("pId") String pId ,@Param("unitId") String unitId,@Param("projectType") String projectType,@Param("address") String address,@Param("pname") String pname,@Param("statDate") String statDate,@Param("endDate") String endDate,@Param("runStatus") String runStatus);
 
 
 
