@@ -66,8 +66,8 @@ public class FaultServiceImpl implements FaultService {
     }
 
     @Override
-    public JSONArray findMonthCount(String date) {
-        List<?> datas = faultRepository.findMonthCount(date);
+    public JSONArray findMonthCount(String date,String pId,String unitId) {
+        List<?> datas = faultRepository.findMonthCount(date,pId,unitId);
         return dayDispose(datas,date);
     }
 

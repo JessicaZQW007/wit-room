@@ -23,7 +23,7 @@ public interface FaultService {
     public JSONObject findAllFaultMessagePage(String pname, String message, String rank, String address, String allDate, int pageNum, int pageSize);
 
 //    查看某月故障信息
-    public JSONArray findMonthCount(String date);
+    public JSONArray findMonthCount(String date,String pId,String unitId);
 
     public JSONArray findFaultCode();
 

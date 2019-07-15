@@ -3,7 +3,9 @@ package com.yhxc.controller.fault;
 import com.yhxc.common.ResultInfo;
 import com.yhxc.common.StatusCode;
 import com.yhxc.entity.fault.FaultCode;
+import com.yhxc.entity.system.User;
 import com.yhxc.service.fault.FaultService;
+import com.yhxc.utils.Jurisdiction;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -36,7 +38,22 @@ public class FaultController {
     @ResponseBody
     @RequestMapping("/findMonthCount")
     public ResultInfo  findMonthCount(String date) {
-        JSONArray datas=  faultService.findMonthCount(date);
+        User u= Jurisdiction.getCurrentUser();
+        String pId="";
+        String unitId="";
+
+        if(u.getUserType()==1){
+            //平台用户
+            pId=u.getUnitId();
+
+
+        }else if(u.getUserType()==2){
+            //机构用户
+            unitId=u.getUnitId();
+
+        }
+
+        JSONArray datas=  faultService.findMonthCount(date,pId,unitId);
         return new ResultInfo(StatusCode.SUCCESS, "成功！",datas);
     }
 

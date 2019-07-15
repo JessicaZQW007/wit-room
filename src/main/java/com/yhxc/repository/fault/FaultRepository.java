@@ -61,10 +61,13 @@ public interface FaultRepository extends JpaRepository<Fault, String>, JpaSpecif
             "(SELECT fa.air_id,fa.code,fa.uuid,fa.ndate createtime,fa.fa_state state from ex_fault fa\n" +
             "UNION ALL\n" +
             "SELECT ex.air_id,ex.code,ex.uuid,ex.createtime, ex.state FROM ex_report ex) re , " +
-            " t_equipment eq  , p_project pr ,ex_fault_code co\n" +
-            "WHERE re.code=co.code AND eq.uuid=re.uuid and pr.eq_id=eq.id  and substr(re.createtime,1,7)=:date  \n" +
+            " t_equipment eq  , p_project pr ,ex_fault_code co,t_unit u " +
+            "WHERE re.code=co.code AND eq.uuid=re.uuid and pr.eq_id=eq.id and eq.unit_id=u.id and pr.unit_id=u.id  " +
+            "and substr(re.createtime,1,7)=:date  " +
+            "AND if(:pId !='', u.p_id=:pId, 1=1 ) " +
+            "AND if(:unitId !='', eq.unit_id=:unitId, 1=1 ) " +
             "GROUP BY substr(re.createtime,1,10)) de ORDER BY de.sun asc", nativeQuery = true)
-    public List<?> findMonthCount(@Param("date") String date);
+    public List<?> findMonthCount(@Param("date") String date,@Param("pId") String pId,@Param("unitId") String unitId);
 
 
 
