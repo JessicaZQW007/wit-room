@@ -1,8 +1,10 @@
 package com.yhxc.service.fault.impl;
 
 import com.yhxc.entity.fault.Report;
+import com.yhxc.entity.system.User;
 import com.yhxc.repository.fault.ReportRepository;
 import com.yhxc.service.fault.FaultReportService;
+import com.yhxc.utils.Jurisdiction;
 import com.yhxc.utils.StringUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -22,7 +24,7 @@ public class FaultRepostServiceImpl implements FaultReportService {
     private ReportRepository reportRepository;
 
     @Override
-    public JSONObject findAllReportMessagePage(String pname,String message,String rank,String address,String allDate,int pageNum,int pageSize) {
+    public JSONObject findAllReportMessagePage(String pId,String unitId,String pname,String message,String rank,String address,String allDate,int pageNum,int pageSize) {
         List<?> datas=null;
         String	statDate="";
         String	endDate="";
@@ -32,8 +34,8 @@ public class FaultRepostServiceImpl implements FaultReportService {
         }
         JSONObject jsonObject2 = new JSONObject();
         pageNum=(pageNum-1)*pageSize;
-        datas = reportRepository.findAllReportMessagePage(pname,message,rank,address,statDate,endDate,pageNum,pageSize);
-        int number = reportRepository.findAllReportMessage(pname,message,rank,address,statDate,endDate);
+        datas = reportRepository.findAllReportMessagePage(pId,unitId,pname,message,rank,address,statDate,endDate,pageNum,pageSize);
+        int number = reportRepository.findAllReportMessage(pId,unitId,pname,message,rank,address,statDate,endDate);
         JSONArray jsonArray = new JSONArray();
         for (int i = 0;i<datas.size();i++){
             Object[] objects = (Object[]) datas.get(i);
@@ -57,8 +59,11 @@ public class FaultRepostServiceImpl implements FaultReportService {
     }
 
     @Override
-    public int findNumber() {
-        return reportRepository.findNumber();
+    public int findNumber(String pId,String unitId) {
+
+
+
+        return reportRepository.findNumber(pId,unitId);
     }
 
     //    删除处理过的报警信息

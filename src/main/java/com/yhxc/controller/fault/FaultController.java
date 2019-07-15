@@ -35,11 +35,11 @@ public class FaultController {
         String unitId="";
 
         if(u.getUserType()==1){
-            //平台单位
+            //平台用户
             pId=u.getUnitId();
 
         }else if(u.getUserType()==2){
-            //项目机构
+            //机构用户
             unitId=u.getUnitId();
 
         }

@@ -15,10 +15,10 @@ import java.util.List;
  */
 public interface FaultReportService {
 
-    public JSONObject findAllReportMessagePage(String pname, String message, String rank, String address, String allDate, int pageNum, int pageSize);
+    public JSONObject findAllReportMessagePage(String pId,String unitId,String pname, String message, String rank, String address, String allDate, int pageNum, int pageSize);
 
 //    查看报警数量
-    public int findNumber();
+    public int findNumber(String pId,String unitId);
 
     //    根据airid,code,uuid删除报警信息
     public void deleteByAirIdAndCodeAndUuid(String id);

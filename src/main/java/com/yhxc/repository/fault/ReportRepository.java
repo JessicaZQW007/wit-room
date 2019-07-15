@@ -18,15 +18,17 @@ public interface ReportRepository extends JpaRepository<Report, String>, JpaSpec
 
 //    查全部报警信息(按项目名称,设备id,时间区间)，分页
     @Query(value = "select re.id,pr.pname,re.uuid,eq.name,co.rank,co.code,co.message,co.manage,re.createtime,pr.address,re.air_id " +
-        "FROM ex_fault_code co,p_project pr,t_equipment eq,ex_report re " +
-        "WHERE re.code=co.code and pr.eq_id=eq.id and eq.uuid=re.uuid" +
-        " and if(:pname !='', pr.pname like CONCAT('%',:pname,'%'), 1 = 1)" +
+        "FROM ex_fault_code co,p_project pr,t_equipment eq,ex_report re,t_unit u " +
+        "WHERE re.code=co.code and pr.eq_id=eq.id and eq.uuid=re.uuid and eq.unit_id=u.id and pr.unit_id=u.id " +
+        "AND if(:pId != '' , u.p_id =:pId , 1 = 1 ) " +
+            "AND if(:unitId != '' , eq.unit_id =:unitId , 1 = 1 )   " +
+            "and if(:pname !='', pr.pname like CONCAT('%',:pname,'%'), 1 = 1)" +
             "and if(:message !='', co.message LIKE CONCAT('%',:message,'%'), 1 = 1)" +
             "and if(:rank !='', co.rank =:rank, 1 = 1)" +
             "and if(:address !='', pr.address like CONCAT('%',:address,'%'), 1 = 1)" +
             "AND if(:startDate !='', re.createtime BETWEEN :startDate  and :endDate, 1 = 1)" +
             "ORDER BY re.createtime desc limit :pageNum,:pageSize",nativeQuery = true)
-    public List<?> findAllReportMessagePage(@Param("pname")String pname,@Param("message")String message,@Param("rank")String rank,@Param("address")String address,@Param("startDate")String startDate,@Param("endDate")String endDate,@Param("pageNum")int pageNum,@Param("pageSize") int pageSize);
+    public List<?> findAllReportMessagePage(@Param("pId") String pId,@Param("unitId") String unitId,@Param("pname")String pname,@Param("message")String message,@Param("rank")String rank,@Param("address")String address,@Param("startDate")String startDate,@Param("endDate")String endDate,@Param("pageNum")int pageNum,@Param("pageSize") int pageSize);
 
 
 
@@ -58,22 +60,26 @@ public interface ReportRepository extends JpaRepository<Report, String>, JpaSpec
 
     //    查全部报警信息(按项目名称,设备id,时间区间)
     @Query(value = "select COUNT(re.air_id)" +
-            "FROM ex_fault_code co,p_project pr,t_equipment eq, ex_report re " +
-            "WHERE re.code=co.code and pr.eq_id=eq.id and eq.uuid=re.uuid" +
-            " and if(:pname !='', pr.pname like CONCAT('%',:pname,'%'), 1 = 1)" +
+            "FROM ex_fault_code co,p_project pr,t_equipment eq, ex_report re ,t_unit u " +
+            "WHERE re.code=co.code and pr.eq_id=eq.id and eq.uuid=re.uuid and eq.unit_id=u.id and pr.unit_id=u.id  " +
+            "and if(:pId !='', u.p_id =:pId, 1 = 1) " +
+            "and if(:unitId !='', eq.unit_id =:unitId, 1 = 1) " +
+            "and if(:pname !='', pr.pname like CONCAT('%',:pname,'%'), 1 = 1)" +
             "and if(:message !='', co.message LIKE CONCAT('%',:message,'%'), 1 = 1)" +
             "and if(:rank !='', co.rank =:rank, 1 = 1)" +
             "and if(:address !='', pr.address like CONCAT('%',:address,'%'), 1 = 1)" +
             "AND if(:startDate !='', re.createtime BETWEEN :startDate  and :endDate, 1 = 1)" +
             "ORDER BY re.createtime desc",nativeQuery = true)
-    public int findAllReportMessage(@Param("pname")String pname,@Param("message")String message,@Param("rank")String rank,@Param("address")String address,@Param("startDate")String startDate,@Param("endDate")String endDate);
+    public int findAllReportMessage(@Param("pId")String pId,@Param("unitId") String unitId,@Param("pname")String pname,@Param("message")String message,@Param("rank")String rank,@Param("address")String address,@Param("startDate")String startDate,@Param("endDate")String endDate);
 
     //    查报警数量
     @Query(value = "select COUNT(re.air_id)" +
-            "FROM ex_fault_code co,p_project pr,t_equipment eq, " +
+            "FROM ex_fault_code co,p_project pr,t_equipment eq, t_unit u ," +
             "(SELECT ex.air_id,ex.code,ex.uuid,ex.createtime FROM ex_report ex) re " +
-            "WHERE re.code=co.code and pr.eq_id=eq.id and eq.uuid=re.uuid",nativeQuery = true)
-    public int findNumber();
+            "WHERE re.code=co.code and pr.eq_id=eq.id and eq.uuid=re.uuid and eq.unit_id=u.id and pr.unit_id=u.id " +
+            "and if(:pId !='', u.p_id =:pId, 1 = 1) " +
+            "and if(:unitId !='', eq.unit_id =:unitId, 1 = 1) ",nativeQuery = true)
+    public int findNumber(@Param("pId") String pId,@Param("unitId") String unitId);
 
 //    根据id删除报警信息
     @Transactional

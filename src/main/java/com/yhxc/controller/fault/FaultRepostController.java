@@ -4,6 +4,7 @@ import com.yhxc.common.ResultInfo;
 import com.yhxc.common.StatusCode;
 import com.yhxc.entity.fault.Fault;
 import com.yhxc.entity.system.Log;
+import com.yhxc.entity.system.User;
 import com.yhxc.service.fault.FaultReportService;
 import com.yhxc.service.fault.FaultService;
 import com.yhxc.service.system.LogService;
@@ -39,14 +40,39 @@ public class FaultRepostController {
     @ResponseBody
     @RequestMapping("/number")
     public ResultInfo messageNumber(){
-        return new ResultInfo(StatusCode.SUCCESS,"success",faultReportService.findNumber());
+        User u= Jurisdiction.getCurrentUser();
+        String pId="";
+        String unitId="";
+
+        if(u.getUserType()==1){
+            //平台用户
+            pId=u.getUnitId();
+
+        }else if(u.getUserType()==2){
+            //机构用户
+            unitId=u.getUnitId();
+        }
+        return new ResultInfo(StatusCode.SUCCESS,"success",faultReportService.findNumber(pId,unitId));
     }
 
 //    分页条件查询报警信息
     @ResponseBody
     @RequestMapping("/listPageMessage")
     public ResultInfo listPage(String pname,String message,String rank,String address,String allDate,int pageNum,int pageSize){
-        JSONObject datas= faultReportService.findAllReportMessagePage(pname,message,rank,address,allDate,pageNum,pageSize);
+        User u=Jurisdiction.getCurrentUser();
+        String pId="";
+        String unitId="";
+
+        if(u.getUserType()==1){
+            //平台单位
+            pId=u.getUnitId();
+
+        }else if(u.getUserType()==2){
+            //项目机构
+            unitId=u.getUnitId();
+
+        }
+        JSONObject datas= faultReportService.findAllReportMessagePage(pId,unitId,pname,message,rank,address,allDate,pageNum,pageSize);
         return new ResultInfo(StatusCode.SUCCESS,"success",datas);
     }
 
