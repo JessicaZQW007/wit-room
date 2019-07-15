@@ -196,7 +196,7 @@ public interface EnergyService {
      * @param date
      * @return
      */
-    public JSONArray findProjectRank(String date);
+    public JSONArray findProjectRank(String date,String pId,String unitId);
 
 
     /**

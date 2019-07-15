@@ -178,9 +178,12 @@ public interface MonthCountElectricRepository extends JpaRepository<MonthCountEl
            查询项目能耗前十排名
             */
 
-    @Query(value = " SELECT  ve.pname,ve.num    from   ( SELECT p.pname,sum(elequantity) num from c_month_count_electric c,t_equipment e ,p_project p where  c.uuid=e.uuid and p.eq_id=e.id  \n" +
-            " and substr(c.date,1,7)=:date   GROUP BY p.pname   ) ve ORDER BY ve.num  desc  LIMIT 10 ", nativeQuery = true)
-    public List<?> findProjectRank(@Param("date") String date);
+    @Query(value = " SELECT  ve.pname,ve.num    from   ( SELECT p.pname,sum(elequantity) num from c_month_count_electric c,t_equipment e ,p_project p,t_unit u where  c.uuid=e.uuid and p.eq_id=e.id and e.unit_id=u.id and p.unit_id=u.id  \n" +
+            " and substr(c.date,1,7)=:date  " +
+            "AND if(:pId != '' , u.p_id =:pId , 1 = 1 ) " +
+            "AND if(:unitId != '' , p.unit_id =:unitId , 1 = 1 ) " +
+            "GROUP BY p.pname   ) ve ORDER BY ve.num  desc  LIMIT 10 ", nativeQuery = true)
+    public List<?> findProjectRank(@Param("date") String date,@Param("pId") String pId,@Param("unitId") String unitId);
 
 
  /*

@@ -180,7 +180,23 @@ public class EnergyController {
     @ResponseBody
     @RequestMapping("/findProjectRank")
     public ResultInfo  findProjectRank(String date) {
-        JSONArray datas=  energyService.findProjectRank(date);
+        User u = Jurisdiction.getCurrentUser();
+        String pId="";
+        String unitId="";
+
+        if(u.getUserType()==1){
+            //平台用户
+            pId=u.getUnitId();
+
+
+        }else if(u.getUserType()==2){
+            //机构用户
+            unitId=u.getUnitId();
+
+        }
+
+
+        JSONArray datas=  energyService.findProjectRank(date,pId,unitId);
         return new ResultInfo(StatusCode.SUCCESS, "成功！",datas);
     }
 

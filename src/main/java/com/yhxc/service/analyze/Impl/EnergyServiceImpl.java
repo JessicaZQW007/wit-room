@@ -207,9 +207,9 @@ public class EnergyServiceImpl  implements EnergyService {
     }
 
     @Override
-    public JSONArray findProjectRank(String date) {
+    public JSONArray findProjectRank(String date,String pId,String unitId) {
         JSONArray jsonArray=new JSONArray();
-        List<?> datas=monthCountElectricRepository.findProjectRank(date);
+        List<?> datas=monthCountElectricRepository.findProjectRank(date,pId,unitId);
         for (int i = 0; i < datas.size(); i++) {
             Object[] objects = (Object[]) datas.get(i);
             JSONObject jsonObject = new JSONObject();
