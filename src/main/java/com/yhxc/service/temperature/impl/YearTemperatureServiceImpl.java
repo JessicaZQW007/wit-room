@@ -147,8 +147,27 @@ public class YearTemperatureServiceImpl implements YearTemperatureService{
                 Object[] objects = (Object[]) datas.get(i);
                 JSONObject jsonObject = new JSONObject();
                 if(objects[0].toString().length()==13){
+                    //小时
                     date=objects[0].toString()+":00";
                     jsonObject.put("date",date);//日期
+                }else if(objects[0].toString().length()==10){
+                    //每日
+                    date=objects[0].toString();
+                    String days = date.substring(8, 10);
+                    if (days.substring(0, 1).equals("0")) {
+                        days = days.substring(1, 2);
+                    }
+
+                    jsonObject.put("date",days);//日期
+                }else if(objects[0].toString().length()==7){
+                    date=objects[0].toString();
+                    String months = date.substring(5, 7);
+                    if (months.substring(0, 1).equals("0")) {
+                        months = months.substring(1, 2);
+                    }
+
+                    jsonObject.put("date",months);//日期
+
                 }
                 jsonObject.put("swtemp",objects[1]);//室外温度
                 jsonObject.put("swhumi",objects[2]);//室外湿度
@@ -164,6 +183,23 @@ public class YearTemperatureServiceImpl implements YearTemperatureService{
                 if(objects[0].toString().length()==13){
                     date=objects[0].toString()+":00";
                     jsonObject.put("date",date);//日期
+                }else if(objects[0].toString().length()==10){
+                    //每日
+                    date=objects[0].toString();
+                    String days = date.substring(8, 10);
+                    if (days.substring(0, 1).equals("0")) {
+                        days = days.substring(1, 2);
+                    }
+
+                    jsonObject.put("date",days);//日期
+                }else if(objects[0].toString().length()==7){
+                    date=objects[0].toString();
+                    String months = date.substring(5, 7);
+                    if (months.substring(0, 1).equals("0")) {
+                        months = months.substring(1, 2);
+                    }
+
+                    jsonObject.put("date",months);//日期
                 }
                 jsonObject.put("swtemp",objects[1]);//室外温度
                 jsonObject.put("swhumi",objects[2]);//室外湿度
