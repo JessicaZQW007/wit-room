@@ -13,11 +13,11 @@ public interface EquipmentMapper {
     List<Equipment> listEquipmentRes(Equipment equipment);
 
     //设备分布统计(省)
-    List<Map> equipmentsheng();
+    List<Map> equipmentsheng(Equipment equipment);
 
     //设备分布统计(市)
-    List<Map> equipmentshi();
+    List<Map> equipmentshi(Equipment equipment);
 
     //设备分布统计(区)
-    List<Map> equipmentqu();
+    List<Map> equipmentqu(Equipment equipment);
 }

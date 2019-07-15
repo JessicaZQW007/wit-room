@@ -280,13 +280,35 @@ public class EquipmentController {
     @RequestMapping("/equipmentDis")
     public ResultInfo equipmentDis(int num) {
         List<Map> datas = null;
+        Equipment equipment=new Equipment();
+
+
+        User u = Jurisdiction.getCurrentUser();
+        String pId="";
+        String unitId="";
+
+        if(u.getUserType()==1){
+            //平台用户
+            System.out.println("u.getUnitId="+u.getUnitId());
+            System.out.println("平台用户");
+            pId=u.getUnitId();
+            equipment.setUnitPid(pId);
+
+        }else if(u.getUserType()==2){
+            //机构用户
+            System.out.println("机构用户");
+            unitId=u.getUnitId();
+            equipment.setUnitId(unitId);
+        }
+
+
         if (num == 1) {
 
-            datas = equipmentService.equipmentsheng();
+            datas = equipmentService.equipmentsheng(equipment);
         } else if (num == 2) {
-            datas = equipmentService.equipmentshi();
+            datas = equipmentService.equipmentshi(equipment);
         } else if (num == 3) {
-            datas = equipmentService.equipmentqu();
+            datas = equipmentService.equipmentqu(equipment);
         }
 
 

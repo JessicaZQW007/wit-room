@@ -221,18 +221,20 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
-    public List<Map> equipmentsheng() {
-        return equipmentMapper.equipmentsheng();
+    public List<Map> equipmentsheng(Equipment equipment) {
+        System.out.println("equipment.getUnitPid="+equipment.getUnitPid());
+        System.out.println("equipment,getUnitId="+equipment.getUnitId());
+        return equipmentMapper.equipmentsheng(equipment);
     }
 
     @Override
-    public List<Map> equipmentshi() {
-        return equipmentMapper.equipmentshi();
+    public List<Map> equipmentshi(Equipment equipment) {
+        return equipmentMapper.equipmentshi(equipment);
     }
 
     @Override
-    public List<Map> equipmentqu() {
-        return equipmentMapper.equipmentqu();
+    public List<Map> equipmentqu(Equipment equipment) {
+        return equipmentMapper.equipmentqu(equipment);
     }
 
 

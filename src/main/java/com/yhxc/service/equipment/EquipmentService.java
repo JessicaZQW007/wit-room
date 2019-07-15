@@ -72,7 +72,7 @@ public interface EquipmentService {
      * @param
      */
 
-    List<Map> equipmentsheng();
+    List<Map> equipmentsheng(Equipment equipment);
     /**
      * 设备分布统计(市)
      *
@@ -80,14 +80,14 @@ public interface EquipmentService {
      */
 
     //
-    List<Map> equipmentshi();
+    List<Map> equipmentshi(Equipment equipment);
     /**
      * 设备分布统计(区)
      *
      * @param
      */
 
-    List<Map> equipmentqu();
+    List<Map> equipmentqu(Equipment equipment);
 
 
 
