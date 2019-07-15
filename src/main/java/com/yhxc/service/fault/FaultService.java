@@ -20,7 +20,7 @@ public interface FaultService {
     public void save(Fault fault);
 
 //    分页查询报警信息
-    public JSONObject findAllFaultMessagePage(String pname, String message, String rank, String address, String allDate, int pageNum, int pageSize);
+    public JSONObject findAllFaultMessagePage(String pId,String unitId,String pname, String message, String rank, String address, String allDate, int pageNum, int pageSize);
 
 //    查看某月故障信息
     public JSONArray findMonthCount(String date,String pId,String unitId);

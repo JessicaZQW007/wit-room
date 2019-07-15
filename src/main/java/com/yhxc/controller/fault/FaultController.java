@@ -30,7 +30,21 @@ public class FaultController {
     @ResponseBody
     @RequestMapping("/listPageFault")
     public ResultInfo listPage(String pname,String message,String rank,String address,String allDate,int pageNum,int pageSize){
-        JSONObject datas= faultService.findAllFaultMessagePage(pname,message,rank,address,allDate,pageNum,pageSize);
+        User u=Jurisdiction.getCurrentUser();
+        String pId="";
+        String unitId="";
+
+        if(u.getUserType()==1){
+            //平台单位
+            pId=u.getUnitId();
+
+        }else if(u.getUserType()==2){
+            //项目机构
+            unitId=u.getUnitId();
+
+        }
+
+        JSONObject datas= faultService.findAllFaultMessagePage(pId,unitId,pname,message,rank,address,allDate,pageNum,pageSize);
         return new ResultInfo(StatusCode.SUCCESS,"success",datas);
     }
 

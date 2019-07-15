@@ -30,7 +30,7 @@ public class FaultServiceImpl implements FaultService {
     }
 
     @Override
-    public JSONObject findAllFaultMessagePage(String pname, String message, String rank, String address, String allDate, int pageNum, int pageSize) {
+    public JSONObject findAllFaultMessagePage(String pId,String unitId,String pname, String message, String rank, String address, String allDate, int pageNum, int pageSize) {
         List<?> datas=null;
         String	statDate="";
         String	endDate="";
@@ -40,8 +40,8 @@ public class FaultServiceImpl implements FaultService {
         }
         JSONObject jsonObject2 = new JSONObject();
         pageNum=(pageNum-1)*pageSize;
-        datas = faultRepository.findAllFaultMessagePage(pname,message,rank,address,statDate,endDate,pageNum,pageSize);
-        int number = faultRepository.findAllFaultMessage(pname,message,rank,address,statDate,endDate);
+        datas = faultRepository.findAllFaultMessagePage(pId,unitId,pname,message,rank,address,statDate,endDate,pageNum,pageSize);
+        int number = faultRepository.findAllFaultMessage(pId,unitId,pname,message,rank,address,statDate,endDate);
         JSONArray jsonArray = new JSONArray();
         for (int i = 0;i<datas.size();i++){
             Object[] objects = (Object[]) datas.get(i);

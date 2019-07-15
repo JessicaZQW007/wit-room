@@ -26,15 +26,17 @@ public interface FaultRepository extends JpaRepository<Fault, String>, JpaSpecif
            "(SELECT fa.air_id,fa.code,fa.uuid,fa.ndate createtime,fa.end_date endtime,fa.fa_state state,fa.user_name from ex_fault fa\n" +
            "UNION ALL\n" +
            "SELECT r.air_id,r.code,r.uuid, createtime,NULL,r.state,NULL from ex_report r) re\n" +
-           ", t_equipment eq, p_project pr ,ex_fault_code co\n" +
-           "WHERE re.code=co.code AND eq.uuid=re.uuid and pr.eq_id=eq.id" +
+           ", t_equipment eq, p_project pr ,ex_fault_code co,t_unit u " +
+           "WHERE re.code=co.code AND eq.uuid=re.uuid and pr.eq_id=eq.id  and eq.unit_id=u.id and pr.unit_id=u.id " +
+           "AND if(:pId != '' , u.p_id =:pId , 1 = 1 ) " +
+           "AND if(:unitId != '' , eq.unit_id =:unitId , 1 = 1 ) " +
            " and if(:pname !='', pr.pname like CONCAT('%',:pname,'%'), 1 = 1)" +
            "and if(:message !='', co.message LIKE CONCAT('%',:message,'%'), 1 = 1)" +
            "and if(:rank !='', co.rank =:rank, 1 = 1)" +
            "and if(:address !='', pr.address like CONCAT('%',:address,'%'), 1 = 1)" +
            "AND if(:startDate !='', re.createtime BETWEEN :startDate  and :endDate, 1 = 1)" +
            " ORDER BY re.createtime desc limit :pageNum,:pageSize",nativeQuery = true)
-    List<?> findAllFaultMessagePage(@Param("pname")String pname,@Param("message")String message,@Param("rank")String rank,@Param("address")String address,@Param("startDate")String startDate,@Param("endDate")String endDate,@Param("pageNum")int pageNum,@Param("pageSize") int pageSize);
+    List<?> findAllFaultMessagePage(@Param("pId")String pId,@Param("unitId") String unitId,@Param("pname")String pname,@Param("message")String message,@Param("rank")String rank,@Param("address")String address,@Param("startDate")String startDate,@Param("endDate")String endDate,@Param("pageNum")int pageNum,@Param("pageSize") int pageSize);
 
 
 
@@ -45,15 +47,17 @@ public interface FaultRepository extends JpaRepository<Fault, String>, JpaSpecif
             "(SELECT fa.air_id,fa.code,fa.uuid,fa.ndate createtime,fa.fa_state state from ex_fault fa\n" +
             "UNION ALL\n" +
             "SELECT r.air_id,r.code,r.uuid,r.createtime,r.state from ex_report r) re \n" +
-            ", t_equipment eq, p_project pr ,ex_fault_code co\n" +
-            "\tWHERE re.code=co.code AND eq.uuid=re.uuid and pr.eq_id=eq.id\n" +
+            ", t_equipment eq, p_project pr ,ex_fault_code co,t_unit u " +
+            "\tWHERE re.code=co.code AND eq.uuid=re.uuid and pr.eq_id=eq.id  and eq.unit_id=u.id and pr.unit_id=u.id " +
+            "AND if(:pId != '' , u.p_id =:pId , 1 = 1 ) " +
+            "AND if(:unitId != '' , eq.unit_id =:unitId , 1 = 1 ) " +
             " and if(:pname !='', pr.pname like CONCAT('%',:pname,'%'), 1 = 1)" +
             "and if(:message !='', co.message LIKE CONCAT('%',:message,'%'), 1 = 1)" +
             "and if(:rank !='', co.rank =:rank, 1 = 1)" +
             "and if(:address !='', pr.address like CONCAT('%',:address,'%'), 1 = 1)" +
             "AND if(:startDate !='', re.createtime BETWEEN :startDate  and :endDate, 1 = 1)" +
             " ORDER BY re.createtime desc",nativeQuery = true)
-    int findAllFaultMessage(@Param("pname")String pname,@Param("message")String message,@Param("rank")String rank,@Param("address")String address,@Param("startDate")String startDate,@Param("endDate")String endDate);
+    int findAllFaultMessage(@Param("pId")String pId,@Param("unitId") String unitId,@Param("pname")String pname,@Param("message")String message,@Param("rank")String rank,@Param("address")String address,@Param("startDate")String startDate,@Param("endDate")String endDate);
 
  //    查看某月故障数量
     @Query(value = "   SELECT  de.sun,de.num " +
