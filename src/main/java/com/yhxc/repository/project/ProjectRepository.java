@@ -107,21 +107,32 @@ public interface ProjectRepository extends JpaRepository<Project, String>,JpaSpe
     /**查询地址（省）
      * @param
      */
-    @Query(value = "   SELECT p.id,substring_index(p.address,',',1)from p_project p  GROUP BY substring_index(p.address,',',1); ", nativeQuery = true)
-    public List<?> findProvince();
+    @Query(value = "   SELECT p.id,substring_index(p.address,',',1)from p_project p,t_unit u where p.unit_id =u.id " +
+            "AND if(:pId != '' , u.p_id =:pId , 1 = 1 ) " +
+            "AND if(:unitId != '' ,p.unit_id =:unitId , 1 = 1 ) " +
+            " GROUP BY substring_index(p.address,',',1); ", nativeQuery = true)
+    public List<?> findProvince(@Param("pId") String pId,@Param("unitId") String unitId);
 
     /**查询地址（市）
      * @param
      */
-    @Query(value = " SELECT id,substring_index(p.address,',',2)     from p_project p  where  substring_index(p.address,',',1)=:province   GROUP BY substring_index(p.address,',',2); ", nativeQuery = true)
-    public List<?> findCity(@Param("province") String province);
+    @Query(value = " SELECT p.id,substring_index(p.address,',',2)     from p_project p,t_unit u  where p.unit_id=u.id " +
+            "and substring_index(p.address,',',1)=:province  " +
+            "AND if(:pId != '' , u.p_id =:pId , 1 = 1 ) " +
+            "AND if(:unitId != '' ,p.unit_id =:unitId , 1 = 1 ) " +
+            "GROUP BY substring_index(p.address,',',2); ", nativeQuery = true)
+    public List<?> findCity(@Param("province") String province,@Param("pId") String pId,@Param("unitId") String unitId);
 
 
     /**查询地址（区/县）
      * @param
      */
-    @Query(value = " SELECT id,substring_index(p.address,',',3)     from p_project p  where  substring_index(p.address,',',2)=:city   GROUP BY substring_index(p.address,',',3);", nativeQuery = true)
-    public List<?> findqu(@Param("city") String city);
+    @Query(value = " SELECT p.id,substring_index(p.address,',',3)     from p_project p,t_unit u  where p.unit_id=u.id " +
+            "and substring_index(p.address,',',2)=:city  " +
+            "AND if(:pId != '' , u.p_id =:pId , 1 = 1 ) " +
+            "AND if(:unitId != '' ,p.unit_id =:unitId , 1 = 1 ) " +
+            "GROUP BY substring_index(p.address,',',3);", nativeQuery = true)
+    public List<?> findqu(@Param("city") String city,@Param("pId") String pId,@Param("unitId") String unitId);
 
 
 

@@ -37,13 +37,13 @@ public interface ProjectService {
 	/**项目地址树形图
 	 *
 	 */
-	public JSONArray addressTree();
+	public JSONArray addressTree(String pId,String unitId);
 
 
 	/**项目地址树形图（省 市 区）
 	 *
 	 */
-	public JSONArray addressTreeOne();
+	public JSONArray addressTreeOne(String pId,String unitId);
 
 	/**查询所有的项目（分页）
 	 *

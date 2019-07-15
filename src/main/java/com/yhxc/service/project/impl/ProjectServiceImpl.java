@@ -47,10 +47,10 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public JSONArray addressTree() {
+	public JSONArray addressTree(String pId,String unitId) {
 		JSONArray jsonArray4 = new JSONArray();
 		JSONObject jsonObject4 = new JSONObject();
-		List<?> datas = projectRepository.findProvince();
+		List<?> datas = projectRepository.findProvince(pId,unitId);
 		JSONArray jsonArray = new JSONArray();
 		for (int i = 0; i < datas.size(); i++) {
 			int num1 = 1000;
@@ -58,7 +58,7 @@ public class ProjectServiceImpl implements ProjectService {
 			JSONObject jsonObject = new JSONObject();
 			jsonObject.put("location", objects[1]);// 地方
 			jsonObject.put("num", num1 + i);// id
-			List<?> datas2 = projectRepository.findCity(objects[1].toString());
+			List<?> datas2 = projectRepository.findCity(objects[1].toString(),pId,unitId);
 			JSONArray jsonArray2 = new JSONArray();
 			for (int j = 0; j < datas2.size(); j++) {
 				Object[] objects2 = (Object[]) datas2.get(j);
@@ -69,7 +69,7 @@ public class ProjectServiceImpl implements ProjectService {
 				int num2 = 2000;
 				jsonObject2.put("location", strs[1].toString());// 地方
 				jsonObject2.put("num", num2 + j);
-				List<?> datas3 = projectRepository.findqu(objects2[1].toString());
+				List<?> datas3 = projectRepository.findqu(objects2[1].toString(),pId,unitId);
 				JSONArray jsonArray3 = new JSONArray();
 				for (int k = 0; k < datas3.size(); k++) {
 					int num3 = 4000;
@@ -96,9 +96,9 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public JSONArray addressTreeOne() {
+	public JSONArray addressTreeOne(String pId,String unitId) {
 
-		List<?> datas = projectRepository.findProvince();
+		List<?> datas = projectRepository.findProvince(pId,unitId);
 		JSONArray jsonArray = new JSONArray();
 		for (int i = 0; i < datas.size(); i++) {
 			int num1 = 1000;
@@ -106,7 +106,7 @@ public class ProjectServiceImpl implements ProjectService {
 			JSONObject jsonObject = new JSONObject();
 			jsonObject.put("location", objects[1]);// 地方
 			jsonObject.put("num", num1 + i);// id
-			List<?> datas2 = projectRepository.findCity(objects[1].toString());
+			List<?> datas2 = projectRepository.findCity(objects[1].toString(),pId,unitId);
 			JSONArray jsonArray2 = new JSONArray();
 			for (int j = 0; j < datas2.size(); j++) {
 				Object[] objects2 = (Object[]) datas2.get(j);
@@ -117,7 +117,7 @@ public class ProjectServiceImpl implements ProjectService {
 				int num2 = 2000;
 				jsonObject2.put("location", strs[1].toString());// 地方
 				jsonObject2.put("num", num2 + j);
-				List<?> datas3 = projectRepository.findqu(objects2[1].toString());
+				List<?> datas3 = projectRepository.findqu(objects2[1].toString(),pId,unitId);
 				JSONArray jsonArray3 = new JSONArray();
 				for (int k = 0; k < datas3.size(); k++) {
 					int num3 = 4000;

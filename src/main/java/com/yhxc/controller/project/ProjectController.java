@@ -266,7 +266,20 @@ public class ProjectController {
     @ResponseBody
     @RequestMapping("/addressTree")
     public ResultInfo addressTree() {
-        JSONArray datas=projectService.addressTree();
+        User u=Jurisdiction.getCurrentUser();
+        String pId="";
+        String unitId="";
+
+        if(u.getUserType()==1){
+            //平台单位
+            pId=u.getUnitId();
+
+        }else if(u.getUserType()==2){
+            //机构单位
+            unitId=u.getUnitId();
+        }
+
+        JSONArray datas=projectService.addressTree(pId,unitId);
         return new ResultInfo(StatusCode.SUCCESS, "成功！",datas);
     }
 
@@ -280,7 +293,22 @@ public class ProjectController {
     @ResponseBody
     @RequestMapping("/addressTreeOne")
     public ResultInfo addressTreeOne() {
-        JSONArray datas=projectService.addressTreeOne();
+
+        User u=Jurisdiction.getCurrentUser();
+        String pId="";
+        String unitId="";
+
+        if(u.getUserType()==1){
+            //平台单位
+            pId=u.getUnitId();
+
+        }else if(u.getUserType()==2){
+            //机构单位
+            unitId=u.getUnitId();
+        }
+
+
+        JSONArray datas=projectService.addressTreeOne(pId,unitId);
         return new ResultInfo(StatusCode.SUCCESS, "成功！",datas);
     }
 
