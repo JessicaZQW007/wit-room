@@ -239,7 +239,7 @@ public class DayRunTimeCountServiceImpl implements DayRunTimeCountService {
                 }
                 System.out.println("状态：object[2]=" + object[2]);
                 if (Integer.parseInt(object[2].toString()) != 0) {
-                    //不等0 表示在运行中的状态 用后一条数据的时间减本条数据的时间
+                    //不等0 表示在运行中的状态 用后一条数据的时间减本条数据的时间  只要在运行就用后一条数据时间减本条数据时间
                     System.out.println("正常运行状态开始计算时间");
                     try {
                         if (objectNext != null) {

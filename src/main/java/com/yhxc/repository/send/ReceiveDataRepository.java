@@ -176,7 +176,7 @@ public interface ReceiveDataRepository extends JpaRepository<ReceiveData,String>
      *查询设备制冷运行时间 空调1
      * @return
      */
-    @Query(value = "SELECT i.uuid,i.receive_date, ( SELECT CASE WHEN(i.kt_run_model1=\"制冷\" and i.ktccurrent1>1  ) THEN 2 ELSE 0 END   )AS Gender  from s_receive_data i,p_project p,t_equipment e where e.uuid=i.uuid and p.eq_id=e.id and i.receive_date LIKE CONCAT('%',:receiveDate,'%') and p.pname=:pname  order by i.uuid,i.receive_date ", nativeQuery = true)
+    @Query(value = "SELECT i.uuid,i.receive_date, ( SELECT CASE WHEN(i.kt_run_model1=\"制冷\"   ) THEN 2 ELSE 0 END   )AS Gender  from s_receive_data i,p_project p,t_equipment e where e.uuid=i.uuid and p.eq_id=e.id and i.receive_date LIKE CONCAT('%',:receiveDate,'%') and p.pname=:pname  order by i.uuid,i.receive_date ", nativeQuery = true)
     public List<?> findCoolTime1(@Param("receiveDate")String receiveDate,@Param("pname")String pname);
 
 
@@ -186,7 +186,7 @@ public interface ReceiveDataRepository extends JpaRepository<ReceiveData,String>
      *查询设备制冷运行时间 空调2
      * @return
      */
-    @Query(value = "SELECT i.uuid,i.receive_date, ( SELECT CASE WHEN(i.kt_run_model2=\"制冷\" and i.ktccurrent2>1  ) THEN 2 ELSE 0 END   )AS Gender  from s_receive_data i,p_project p,t_equipment e where e.uuid=i.uuid and p.eq_id=e.id and i.receive_date LIKE CONCAT('%',:receiveDate,'%') and p.pname=:pname  order by i.uuid,i.receive_date ", nativeQuery = true)
+    @Query(value = "SELECT i.uuid,i.receive_date, ( SELECT CASE WHEN(i.kt_run_model2=\"制冷\"   ) THEN 2 ELSE 0 END   )AS Gender  from s_receive_data i,p_project p,t_equipment e where e.uuid=i.uuid and p.eq_id=e.id and i.receive_date LIKE CONCAT('%',:receiveDate,'%') and p.pname=:pname  order by i.uuid,i.receive_date ", nativeQuery = true)
     public List<?> findCoolTime2(@Param("receiveDate")String receiveDate,@Param("pname")String pname);
 
 
@@ -207,7 +207,7 @@ public interface ReceiveDataRepository extends JpaRepository<ReceiveData,String>
      */
     @Modifying
     @Transactional
-    @Query(value = "delete from s_receive_data where cast(createtime  as datetime)<(:createtime) ", nativeQuery = true)
+    @Query(value = "delete from s_receive_data where cast(receive_date  as datetime)<(:createtime) ", nativeQuery = true)
     public void delByCreateTime(@Param("createtime") String createtime);
 
 
