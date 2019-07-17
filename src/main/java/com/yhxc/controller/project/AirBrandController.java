@@ -221,9 +221,9 @@ public class AirBrandController {
         } else {
 
             AirBrand airBrand=ariBrandService.findByBrandModel(eb.getBrand(),eb.getModel());
-
-            if(airBrand!=null){
+            if(!(airBrand.getModel().toString().equals(eb.getModel()))&&airBrand!=null){
                 //存在
+                System.out.println("存在");
                 info = "型号已存在";
 
             }else{
