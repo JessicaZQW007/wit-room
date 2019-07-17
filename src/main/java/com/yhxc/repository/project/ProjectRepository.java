@@ -25,7 +25,7 @@ public interface ProjectRepository extends JpaRepository<Project, String>,JpaSpe
     /**查询所有的项目
      * @param
      */
-    @Query(value = " SELECT   p.id,p.pname,p.address,p.type,p.equipment_num,p.puser,p.puser_phone ,p.createtime ,p.status ,p.location,p.img,p.room_area,e.uuid  from   p_project p LEFT JOIN t_equipment e   ON p.eq_id=e.id LEFT JOIN t_unit AS u ON p.unit_id = u.id where 1=1 and p.unit_id=u.id " +
+    @Query(value = " SELECT   p.id,p.pname,p.address,p.type,p.equipment_num,p.puser,p.puser_phone ,p.createtime ,p.status ,p.location,p.img,p.room_area,e.uuid,p.unit_type,p.unit_id,p.transrate,p.voltage  from   p_project p LEFT JOIN t_equipment e   ON p.eq_id=e.id LEFT JOIN t_unit AS u ON p.unit_id = u.id where 1=1 and p.unit_id=u.id " +
             " AND   if(:address !='', p.address like CONCAT('%',:address,'%'), 1 = 1) " +
             "and  if(:pname !='', p.pname like CONCAT('%',:pname,'%'), 1 = 1) " +
             "and  if(:projectType !='', p.type like CONCAT('%',:projectType,'%'), 1 = 1) " +
@@ -228,6 +228,15 @@ public interface ProjectRepository extends JpaRepository<Project, String>,JpaSpe
             " AND if(:pId !='', u.p_id=:pId, 1=1 ) " +
             " AND if(:unitId !='', p.unit_id=:unitId, 1=1 ) ", nativeQuery = true)
     public List<Project> findList(@Param("pId") String pId,@Param("unitId") String unitId);
+
+
+
+    /**
+     * 查出所有的项目名称
+     * @return
+     */
+    @Query(value = " select id,pname from p_project ", nativeQuery = true)
+    public List<?> findAllPname();
 
 
 }

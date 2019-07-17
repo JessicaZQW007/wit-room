@@ -163,7 +163,8 @@ public class ProjectController {
         project.setTransrate(json.getInt("transrate"));//互感器倍率
         project.setVoltage(json.getInt("voltage"));//设备电压
        /* project.setUnitType((String) json.get("unitType"));//机构类别*/
-        project.setUnitId((String) json.get("UnitId"));//机构ID
+        System.out.println("unitId="+(String) json.get("UnitId"));
+        project.setUnitId((String) json.get("unitId"));//机构ID
 
         project.setElectricityPrice(Double.parseDouble((String) json.get("electricityPrice")));//每度电的单价
         String  location=AddressLngLatExchange.getLngLatFromOneAddr((String) json.get("address"));//项目地址转化成经纬度

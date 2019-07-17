@@ -169,11 +169,11 @@ public class ProjectServiceImpl implements ProjectService {
 			jsonObject.put("img", objects[10]);//项目图片
 			jsonObject.put("roomArea", objects[11]);//房间面积
 			jsonObject.put("uuid", objects[12]);//设备uuid
-			/*jsonObject.put("unitType", objects[13]);//机构类型
+			jsonObject.put("unitType", objects[13]);//机构类型
 			jsonObject.put("unitId", objects[14]);//机构ID
 			jsonObject.put("transrate", objects[15]);//互感器倍率
 			jsonObject.put("voltage", objects[16]);//设备电压
-*/
+
 			jsonArray.add(jsonObject);
 		}
 		jsonObject2.put("datas",jsonArray);
