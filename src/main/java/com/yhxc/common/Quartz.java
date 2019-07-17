@@ -171,7 +171,7 @@ public class Quartz {
         logService.save(new Log(Log.ADD_ACTION, "在"+DateUtil.getTime()+"的时候:备份空调用电量"+date+"数据,成功!"));
     }
 
-    //删除7天之前的数据
+   /* //删除7天之前的数据
     @Scheduled(cron = "0 30 5 * * ?") // 每天五点半
     @Async
     public void del() throws Exception {
@@ -180,7 +180,7 @@ public class Quartz {
         String sevenday = new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime());
         System.out.println("sevenday="+sevenday);
         receiveDataRepository.delByCreateTime(sevenday);
-    }
+    }*/
 
 
 
