@@ -268,7 +268,7 @@ public class UnitController {
 
 
 
-/**
+    /**
      * 下拉联动 ( 状态(state 0)为正常的)
      *
      * @return
@@ -284,7 +284,21 @@ public class UnitController {
 
 
 
-    //查询所有
+    /**
+     * 根据ID查询数据
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/findById")
+    public ResultInfo finById(String pId) {
+
+
+        return new ResultInfo(StatusCode.SUCCESS, "成功！", unitService.findOneById(pId));
+    }
+
+
+
 
 
 
