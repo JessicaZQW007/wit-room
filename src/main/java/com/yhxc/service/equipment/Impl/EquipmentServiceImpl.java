@@ -264,9 +264,13 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Override
     public JSONObject findIndexData(String pId,String unitId) {
         JSONObject json = new JSONObject();
-        int projectNum=projectRepository.ProjectNum(pId,unitId);
-        int eqNum=equipmentRepository.eqNum(pId,unitId);
-        int airNum=projectRepository.airNum(pId,unitId);
+        Integer projectNum=projectRepository.ProjectNum(pId,unitId);
+        Integer eqNum=equipmentRepository.eqNum(pId,unitId);
+
+        Integer airNum=projectRepository.airNum(pId,unitId);
+        if (airNum==null){
+            airNum=0;
+        }
         json.put("projectNum",projectNum);
         json.put("eqNum",eqNum);
         json.put("airNum",airNum);
