@@ -249,7 +249,14 @@ public class UnitController {
         String unitId="";
         if(u.getUserType()==1){
             //平台用户
-            pId=u.getUnitId();
+            if(type.equals("1")){
+                pId=u.getUnitId();
+            }
+
+
+            if(type.equals("1")){
+                unitId=u.getUnitId();
+            }
 
         }else if(u.getUserType()==2){
             //机构用户
