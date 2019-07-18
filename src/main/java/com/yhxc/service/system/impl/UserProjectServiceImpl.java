@@ -73,8 +73,8 @@ public class UserProjectServiceImpl implements UserProjectService {
 	}
 
 	@Override
-	public JSONArray findbangdingEqNo(Integer userId,String uuid) {
-		List<?> datas = userProjectRepository.findbangdingEqNo(userId,uuid);
+	public JSONArray findbangdingEqNo(Integer userId,String uuid,String pId,String unitId) {
+		List<?> datas = userProjectRepository.findbangdingEqNo(userId,uuid,pId,unitId);
 
 		JSONArray jsonArray = new JSONArray();
 		for (int i = 0; i < datas.size(); i++) {

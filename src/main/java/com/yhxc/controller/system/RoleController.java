@@ -255,7 +255,18 @@ public class RoleController {
     @RequestMapping("/findbangdingEqNo")
     @ResponseBody
     public ResultInfo findbangdingEqNo(Integer userId,String uuid ) throws Exception {
-        return new ResultInfo(StatusCode.SUCCESS, "SUCCESS", userProjectService.findbangdingEqNo(userId,uuid));
+        User u=Jurisdiction.getCurrentUser();
+        String pId="";
+        String unitId="";
+        if (u.getUserType()==1){
+            pId=u.getUnitId();
+
+        }else if (u.getUserType()==2){
+            unitId=u.getUnitId();
+
+        }
+
+        return new ResultInfo(StatusCode.SUCCESS, "SUCCESS", userProjectService.findbangdingEqNo(userId,uuid,pId,unitId));
     }
 
 

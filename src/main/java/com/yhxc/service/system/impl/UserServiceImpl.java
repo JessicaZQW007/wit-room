@@ -232,4 +232,30 @@ public class UserServiceImpl implements UserService {
 
         return num;
     }
+
+
+    @Override
+    public List<User> findAllListPageType(String pId, String type,String userName,String unitId, int pageNum, int pageSize ){
+        List<User> userList=userRepository.findAllListPageType(pId,type,userName,unitId,pageNum,pageSize);
+
+
+
+        return userList;
+    }
+
+
+
+    @Override
+    public int findAllListCountType(String pId, String type,String userName,String unitId ){
+        List<Integer> datas=userRepository.findAllListCountType(pId,type,userName,unitId);
+        int num=0;
+        for (int i=0;i>datas.size();i++){
+            System.out.println(datas.get(i));
+            int k=datas.get(i);
+            num=datas.get(i)+num;
+        }
+
+
+        return num;
+    }
 }

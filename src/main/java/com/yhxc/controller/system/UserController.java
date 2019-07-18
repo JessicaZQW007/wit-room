@@ -194,20 +194,31 @@ public class UserController {
         User u = Jurisdiction.getCurrentUser();
 
         String pId="";
+        String unitId="";
         System.out.println("u.getUserType="+u.getUserType());
+        List<User> datas=null;
+        int num=0;
         if(u.getUserType()==0){
+             datas=userService.findAllListPage(pId,type,userName,pageNum,pageSize);
+             num=userService.findAllListCount(pId,type,userName);
 
         }
         else if(u.getUserType()==1){
             //平台用户
             pId=u.getUnitId();
+            unitId=u.getUnitId();
+            datas=userService.findAllListPageType(pId,type,userName,unitId,pageNum,pageSize);
+            num=userService.findAllListCountType(pId,type,userName,unitId);
+
         }else if(u.getUserType()==2){
             //机构用户
             pId=u.getUnitId();
+            unitId=u.getUnitId();
+            datas=userService.findAllListPageType(pId,type,userName,unitId,pageNum,pageSize);
+            num=userService.findAllListCountType(pId,type,userName,unitId);
         }
 
-        List<User> datas=  userService.findAllListPage(pId,type,userName,pageNum,pageSize);
-        int num=userService.findAllListCount(pId,type,userName);
+
 
 
         return new ResultInfo(StatusCode.SUCCESS, "成功！", datas,num);
@@ -257,6 +268,8 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/saveOrUpdate")
     public ResultInfo saveOrUpdate(User user) throws Exception {
+        User uu=Jurisdiction.getCurrentUser();
+
         if (user.getId() == null) {
             if (userService.findByUserName(user.getUserName()) != null) {
                 return new ResultInfo(StatusCode.FAIL, "用户名已存在！");
@@ -291,6 +304,14 @@ public class UserController {
         } else {
             user.setPassword(MD5.md5(user.getPassword(), Constant.SALT));
             user.setCreateTime(DateUtil.getTime());
+            if(uu.getUserType()==2){
+                if (user.getType()==1){
+                    user.setUserType(4);
+                }else if(user.getType()==2){
+                    user.setUserType(2);
+                }
+
+            }
             info = "添加用户信息成功！";
             logService.save(new Log(Log.ADD_ACTION, "添加用户信息" + user));
         }

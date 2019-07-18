@@ -61,10 +61,12 @@ public interface UserProjectRepository extends JpaRepository<UserProject, Intege
 	/**根据用户id查询未绑定的设备信息
 	 */
 	@Query(value="   SELECT pr.id,e.uuid,pr.pname,e.`name`,t.brand,t.model,e.nb_card,pr.address from\n" +
-			"  (SELECT p.*  from p_project p  where p.id  not in (SELECT project_id  FROM t_user_project where   user_id=:userId )) pr,t_equipment e,t_equipment_type t \n" +
-			"where  pr.eq_id=e.id and e.eq_type_id=t.id " +
-			"and  if(:uuid !='', e.uuid like CONCAT('%',:uuid,'%'), 1 = 1) ",nativeQuery=true)
-	public List<?> findbangdingEqNo(@Param("userId")Integer userId,@Param("uuid")String uuid);
+			"  (SELECT p.*  from p_project p  where p.id  not in (SELECT project_id  FROM t_user_project where   user_id=:userId )) pr,t_equipment e,t_equipment_type t,t_unit u  \n" +
+			"where  pr.eq_id=e.id and e.eq_type_id=t.id and e.unit_id=u.id " +
+			"and  if(:uuid !='', e.uuid like CONCAT('%',:uuid,'%'), 1 = 1) " +
+			"AND if(:pId !='' , u.p_id=:pId, 1=1 ) " +
+			"AND if(:unitId !='' , e.unit_id=:unitId, 1=1 ) ",nativeQuery=true)
+	public List<?> findbangdingEqNo(@Param("userId")Integer userId,@Param("uuid")String uuid,@Param("pId") String pId,@Param("unitId") String unitId);
 
 
 

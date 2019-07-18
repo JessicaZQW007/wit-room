@@ -36,7 +36,7 @@ public interface UserProjectService {
 
 	/**根据用户id查询未绑定的设备信息
 	 */
-	public JSONArray findbangdingEqNo(Integer userId,String uuid);
+	public JSONArray findbangdingEqNo(Integer userId,String uuid,String pId,String unitId);
 	/**
 	 * 根据用户id，项目id 删除所有关联信息
 	 * @param user_id

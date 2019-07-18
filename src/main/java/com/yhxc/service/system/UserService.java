@@ -80,5 +80,12 @@ public interface UserService {
 	public int findAllListCount(String pId,String type, String userName);
 
 
+	//多条件查询用户 分页 权限
+	public List<User> findAllListPageType(String pId,String type, String userName,String unitId, int pageNum, int pageSize );
+
+	//多条件查询用户 数据数量 权限
+	public int findAllListCountType(String pId,String type, String userName,String unitId);
+
+
 
 }
