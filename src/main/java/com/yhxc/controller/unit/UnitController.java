@@ -249,7 +249,7 @@ public class UnitController {
         String unitId="";
         if(u.getUserType()==1){
             //平台用户
-            if(type.equals("1")){
+            if(type.equals("2")){
                 pId=u.getUnitId();
             }
 
