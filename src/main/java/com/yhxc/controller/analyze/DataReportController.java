@@ -2,9 +2,11 @@ package com.yhxc.controller.analyze;
 
 import com.yhxc.common.ResultInfo;
 import com.yhxc.common.StatusCode;
+import com.yhxc.entity.system.User;
 import com.yhxc.service.analyze.DataReportService;
 import com.yhxc.service.count.DayCountElectricService;
 import com.yhxc.service.count.MonthCountElectricService;
+import com.yhxc.utils.Jurisdiction;
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +40,22 @@ public class DataReportController {
     @ResponseBody
     @RequestMapping("/findDayReport")
     public ResultInfo findDayReport(String projectType,String address,String date) {
-      JSONArray datas=  dataReportService.findDayReport(projectType,address,date);
+        User u= Jurisdiction.getCurrentUser();
+        String pId="";
+        String unitId="";
+
+        if(u.getUserType()==1){
+            //平台用户
+            pId=u.getUnitId();
+
+        }else if(u.getUserType()==2){
+            //机构用户
+            unitId=u.getUnitId();
+
+        }
+
+
+      JSONArray datas=  dataReportService.findDayReport(projectType,address,date,pId,unitId);
         return new ResultInfo(StatusCode.SUCCESS, "成功！",datas);
     }
 
@@ -55,7 +72,20 @@ public class DataReportController {
     @ResponseBody
     @RequestMapping("/findMonthReport")
     public ResultInfo findMonthReport(String projectType,String address,String date) {
-        JSONArray datas=  dataReportService.findMonthReport(projectType,address,date);
+        User u= Jurisdiction.getCurrentUser();
+        String pId="";
+        String unitId="";
+
+        if(u.getUserType()==1){
+            //平台用户
+            pId=u.getUnitId();
+
+        }else if(u.getUserType()==2){
+            //机构用户
+            unitId=u.getUnitId();
+
+        }
+        JSONArray datas=  dataReportService.findMonthReport(projectType,address,date,pId,unitId);
         return new ResultInfo(StatusCode.SUCCESS, "成功！",datas);
     }
 
@@ -68,7 +98,20 @@ public class DataReportController {
     @ResponseBody
     @RequestMapping("/findTimeReport")
     public ResultInfo findTimeReport(String projectType,String address,String allDate) {
-        JSONArray datas=  dataReportService.findTimeReport(projectType,address,allDate);
+        User u= Jurisdiction.getCurrentUser();
+        String pId="";
+        String unitId="";
+
+        if(u.getUserType()==1){
+            //平台用户
+            pId=u.getUnitId();
+
+        }else if(u.getUserType()==2){
+            //机构用户
+            unitId=u.getUnitId();
+
+        }
+        JSONArray datas=  dataReportService.findTimeReport(projectType,address,allDate,pId,unitId);
         return new ResultInfo(StatusCode.SUCCESS, "成功！",datas);
     }
 
@@ -82,7 +125,20 @@ public class DataReportController {
     @ResponseBody
     @RequestMapping("/findYearReport")
     public ResultInfo findYearReport(String projectType,String address,String date) {
-        JSONArray datas=  dataReportService.findYearReport(projectType,address,date);
+        User u= Jurisdiction.getCurrentUser();
+        String pId="";
+        String unitId="";
+
+        if(u.getUserType()==1){
+            //平台用户
+            pId=u.getUnitId();
+
+        }else if(u.getUserType()==2){
+            //机构用户
+            unitId=u.getUnitId();
+
+        }
+        JSONArray datas=  dataReportService.findYearReport(projectType,address,date,pId,unitId);
         return new ResultInfo(StatusCode.SUCCESS, "成功！",datas);
     }
 
@@ -94,7 +150,20 @@ public class DataReportController {
     @ResponseBody
     @RequestMapping("/findQuarterReport")
     public ResultInfo findQuarterReport(String projectType,String address,String date) {
-        JSONArray datas=  dataReportService.findQuarterReport(projectType,address,date);
+        User u= Jurisdiction.getCurrentUser();
+        String pId="";
+        String unitId="";
+
+        if(u.getUserType()==1){
+            //平台用户
+            pId=u.getUnitId();
+
+        }else if(u.getUserType()==2){
+            //机构用户
+            unitId=u.getUnitId();
+
+        }
+        JSONArray datas=  dataReportService.findQuarterReport(projectType,address,date,pId,unitId);
         return new ResultInfo(StatusCode.SUCCESS, "成功！",datas);
     }
 

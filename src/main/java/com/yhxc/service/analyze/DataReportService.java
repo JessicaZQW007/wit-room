@@ -16,7 +16,7 @@ public interface DataReportService {
      *  @param address 项目地址
      */
 
-    public JSONArray findDayReport(String projectType, String address, String date);
+    public JSONArray findDayReport(String projectType, String address, String date,String pId,String unitId);
 
 
     /**
@@ -25,28 +25,28 @@ public interface DataReportService {
      *  @param address 项目地址
      */
 
-    public JSONArray findMonthReport(String projectType, String address, String date);
+    public JSONArray findMonthReport(String projectType, String address, String date,String pId,String unitId);
     /**
      * 数据报表中年 报表
      * @param projectType 项目类别
      *  @param address 项目地址
      */
 
-    public JSONArray findYearReport(String projectType, String address, String date);
+    public JSONArray findYearReport(String projectType, String address, String date,String pId,String unitId);
 
     /**
      * 数据报表中  季度报表
      * @param projectType 项目类别
      *  @param address 项目地址
      */
-    public JSONArray findQuarterReport(String projectType, String address, String date);
+    public JSONArray findQuarterReport(String projectType, String address, String date,String pId,String unitId);
 
 
     /**
-     * 数据报表中  季度报表
+     * 数据报表中  时间段报表
      * @param projectType 项目类别
      *  @param address 项目地址
      */
-    public JSONArray findTimeReport(String projectType, String address, String allDate);
+    public JSONArray findTimeReport(String projectType, String address, String allDate,String pId,String unitId);
 
 }

@@ -35,9 +35,9 @@ public class DataReportServiceImpl implements DataReportService {
 
 
     @Override
-    public JSONArray findDayReport(String projectType, String address,String date) {
+    public JSONArray findDayReport(String projectType, String address,String date,String pId,String unitId) {
         JSONArray jsonArray = new JSONArray();
-        List<?> datas=projectRepository.findProjectName(projectType,address);
+        List<?> datas=projectRepository.findProjectName(projectType,address,pId,unitId);
         for (int i = 0; i < datas.size(); i++) {
             Object[] objects = (Object[]) datas.get(i);
             JSONObject jsonObject=new JSONObject();
@@ -50,9 +50,9 @@ public class DataReportServiceImpl implements DataReportService {
     }
 
     @Override
-    public JSONArray findMonthReport(String projectType, String address, String date) {
+    public JSONArray findMonthReport(String projectType, String address, String date,String pId,String unitId) {
         JSONArray jsonArray = new JSONArray();
-        List<?> datas=projectRepository.findProjectName(projectType,address);
+        List<?> datas=projectRepository.findProjectName(projectType,address,pId,unitId);
         for (int i = 0; i < datas.size(); i++) {
             Object[] objects = (Object[]) datas.get(i);
             JSONObject jsonObject=new JSONObject();
@@ -69,7 +69,7 @@ public class DataReportServiceImpl implements DataReportService {
 
     //查询某段时间的用电量
     @Override
-    public JSONArray findTimeReport(String projectType, String address, String allDate) {
+    public JSONArray findTimeReport(String projectType, String address, String allDate,String pId,String unitId) {
         String	statDate="";
         String	endDate="";
         if (StringUtil.isNotEmpty(allDate)) {
@@ -80,7 +80,7 @@ public class DataReportServiceImpl implements DataReportService {
 
         JSONArray jsonArray = new JSONArray();
 
-        List<?> datas=projectRepository.findProjectName(projectType,address);
+        List<?> datas=projectRepository.findProjectName(projectType,address,pId,unitId);
         for (int i = 0; i < datas.size(); i++) {
             Object[] objects = (Object[]) datas.get(i);
             JSONObject jsonObject=new JSONObject();
@@ -97,9 +97,9 @@ public class DataReportServiceImpl implements DataReportService {
     }
 
     @Override
-    public JSONArray findYearReport(String projectType, String address, String date) {
+    public JSONArray findYearReport(String projectType, String address, String date,String pId,String unitId) {
         JSONArray jsonArray = new JSONArray();
-        List<?> datas=projectRepository.findProjectName(projectType,address);
+        List<?> datas=projectRepository.findProjectName(projectType,address,pId,unitId);
         for (int i = 0; i < datas.size(); i++) {
             Object[] objects = (Object[]) datas.get(i);
             JSONObject jsonObject=new JSONObject();
@@ -112,9 +112,9 @@ public class DataReportServiceImpl implements DataReportService {
     }
 
     @Override
-    public JSONArray findQuarterReport(String projectType, String address, String date) {
+    public JSONArray findQuarterReport(String projectType, String address, String date,String pId,String unitId) {
         JSONArray jsonArray = new JSONArray();
-        List<?> datas=projectRepository.findProjectName(projectType,address);
+        List<?> datas=projectRepository.findProjectName(projectType,address,pId,unitId);
         for (int i = 0; i < datas.size(); i++) {
             Object[] objects = (Object[]) datas.get(i);
             JSONObject jsonObject=new JSONObject();
