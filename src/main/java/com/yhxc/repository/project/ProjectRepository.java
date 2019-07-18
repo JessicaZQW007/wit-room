@@ -139,11 +139,13 @@ public interface ProjectRepository extends JpaRepository<Project, String>,JpaSpe
     /**根据项目地址 和项目类别查询
      * @param
      */
-    @Query(value = " SELECT  p.id, p.pname   from p_project p  where " +
-            "  if(:address !='', p.address like CONCAT('%',:address,'%'), 1 = 1) " +
+    @Query(value = " SELECT  p.id, p.pname   from p_project p,t_unit u  where p.unit_id=u.id " +
+            " AND  if(:address !='', p.address like CONCAT('%',:address,'%'), 1 = 1) " +
             " and  if(:projectType !='', p.type like CONCAT('%',:projectType,'%'), 1 = 1) " +
+            " AND if(:pId !='', u.p_id=:pId, 1=1 )  " +
+            "AND if(:unitId !='', p.unit_id=:unitId, 1=1 )  " +
             " ORDER BY p.createtime DESC  ", nativeQuery = true)
-    public List<?> findProjectName(@Param("projectType") String projectType,@Param("address") String address);
+    public List<?> findProjectName(@Param("projectType") String projectType,@Param("address") String address,@Param("pId") String pId,@Param("unitId") String unitId);
 
 
     /**查询项目中空调数量
