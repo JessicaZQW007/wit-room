@@ -52,7 +52,7 @@ public interface UnitRepository extends JpaRepository<Unit, String>,JpaSpecifica
     //查询平台或者机构 (状态：正常 或者 锁定)
     @Query(value = "select id,name from t_unit  WHERE " +
             "if(:type !='', type=:type, 1=1 ) " +
-            "AND if(:state !='', state=:state, 1=1 ) " +
+            "AND if(:state !=-1, state=:state, 1=1 ) " +
             "AND if(:pId !='', p_id=:pId, 1=1 ) " +
             "AND if(:unitId !='', id=:unitId, 1=1 )" , nativeQuery = true)
     public List<?> findByType(@Param("type")String type,@Param("state")Integer state,@Param("pId")String pId,@Param("unitId")String unitId);
@@ -76,7 +76,7 @@ public interface UnitRepository extends JpaRepository<Unit, String>,JpaSpecifica
     //查询平台下的机构(状态：正常 或者 锁定)
     @Query(value = "select id,name from t_unit  WHERE " +
             "if(:pId !='', p_id=:pId, 1=1 ) " +
-            "AND if(:state !='', state=:state, 1=1 ) " , nativeQuery = true)
+            "AND if(:state !=-1, state=:state, 1=1 ) " , nativeQuery = true)
     public List<?> findByPId(@Param("pId")String pId,@Param("state")int state);
 
 

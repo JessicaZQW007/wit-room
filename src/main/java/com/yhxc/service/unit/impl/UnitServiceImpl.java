@@ -83,7 +83,9 @@ public class UnitServiceImpl implements UnitService{
     @Override
     public JSONArray findNameList(String type,String pId,String unitId){
         JSONArray jsonArray=new JSONArray();
-        List<?> datas=unitRepository.findByType(type,0,pId,unitId);
+        Integer state=0;
+        List<?> datas=unitRepository.findByType(type,state,pId,unitId);
+        System.out.println("进来了");
         for (int i = 0; i < datas.size(); i++) {
             Object[] objects = (Object[]) datas.get(i);
             JSONObject jsonObject = new JSONObject();
