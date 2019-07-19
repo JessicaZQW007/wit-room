@@ -247,12 +247,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int findAllListCountType(String pId, String type,String userName,String unitId ){
-        List<Integer> datas=userRepository.findAllListCountType(pId,type,userName,unitId);
+        List<?> datas=userRepository.findAllListCountType(pId,type,userName,unitId);
         int num=0;
-        for (int i=0;i>datas.size();i++){
-            System.out.println(datas.get(i));
-            int k=datas.get(i);
-            num=datas.get(i)+num;
+        for (int i=0;i<datas.size();i++){
+            String str=datas.get(i).toString();
+            int k=Integer.valueOf(str);
+            num=k+num;
         }
 
 

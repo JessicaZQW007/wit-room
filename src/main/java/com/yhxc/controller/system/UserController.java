@@ -207,6 +207,7 @@ public class UserController {
             //平台用户
             pId=u.getUnitId();
             unitId=u.getUnitId();
+            System.out.println("进来了");
             datas=userService.findAllListPageType(pId,type,userName,unitId,pageNum,pageSize);
             num=userService.findAllListCountType(pId,type,userName,unitId);
 

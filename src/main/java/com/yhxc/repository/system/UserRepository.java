@@ -161,15 +161,15 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
      * 分页 多条件查询用户
      * @return
      */
-    @Query(value = "select r.* from t_user r,t_unit t where r.unit_id=t.id  " +
+    @Query(value = "(select r.* from t_user r,t_unit t where r.unit_id=t.id  " +
             "AND if(:pId != '' , t.p_id=:pId, 1 = 1 ) " +
             "AND if(:type !='' , r.type=:type, 1=1 ) " +
-            "AND if(:userName != '' , r.user_name LIKE CONCAT('%',:userName,'%') , 1 = 1 ) " +
+            "AND if(:userName != '' , r.user_name LIKE CONCAT('%',:userName,'%') , 1 = 1 ) ) " +
             "union all " +
-            "select r.* from t_user r,t_unit t where r.unit_id=t.id " +
-            "AND if(:unitId != '' , t.id=:unitId, 1 = 1 ) " +
+            "(select r.* from t_user r,t_unit t where r.unit_id=t.id " +
+            "AND if(:unitId != '' , r.unit_id=:unitId, 1 = 1 ) " +
             "AND if(:type !='' , r.type=:type, 1=1 ) " +
-            "AND if(:userName != '' , r.user_name LIKE CONCAT('%',:userName,'%') , 1 = 1 ) " +
+            "AND if(:userName != '' , r.user_name LIKE CONCAT('%',:userName,'%') , 1 = 1 ) ) " +
             "limit :pageNum,:pageSize ", nativeQuery = true)
     public List<User> findAllListPageType(@Param("pId")String pId, @Param("type")String type, @Param("userName")String userName,@Param("unitId") String unitId ,@Param("pageNum")int pageNum, @Param("pageSize") int pageSize);
 
@@ -184,10 +184,10 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
             "AND if(:userName != '' , r.user_name LIKE CONCAT('%',:userName,'%') , 1 = 1 )" +
             "union all " +
             "select count(*) from t_user r,t_unit t where r.unit_id=t.id " +
-            "AND if(:unitId != '' , t.id=:unitId, 1 = 1 )" +
+            "AND if(:unitId != '' , r.unit_id=:unitId, 1 = 1 )" +
             "AND if(:type !='' , r.type=:type, 1=1 )" +
             "AND if(:userName != '' , r.user_name LIKE CONCAT('%',:userName,'%') , 1 = 1 )", nativeQuery = true)
-    public List<Integer> findAllListCountType(@Param("pId")String pId, @Param("type")String type, @Param("userName")String userName,@Param("unitId") String unitId);
+    public List<?> findAllListCountType(@Param("pId")String pId, @Param("type")String type, @Param("userName")String userName,@Param("unitId") String unitId);
 
 
 }
