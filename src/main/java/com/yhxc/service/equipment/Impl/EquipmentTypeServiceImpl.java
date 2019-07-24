@@ -206,9 +206,9 @@ public class EquipmentTypeServiceImpl implements EquipmentTypeService {
         List<?> datas=equipmentTypeRepository.findEname("");
         for (int i = 0; i < datas.size(); i++) {
             JSONArray jsonArray1=new JSONArray();
-            JSONArray jsonArray2=new JSONArray();
+
             JSONObject jsonObject2=new JSONObject();
-            JSONObject jsonObject3=new JSONObject();
+            /*JSONObject jsonObject3=new JSONObject();*/
             Object[] objects = (Object[]) datas.get(i);
             JSONObject jsonObject1=new JSONObject();
             jsonObject1.put("id",objects[0]);
@@ -216,6 +216,8 @@ public class EquipmentTypeServiceImpl implements EquipmentTypeService {
             //根据ID查询出所有的型号
             List<?> datas1=equipmentTypeRepository.findByPid(objects[0].toString());
             for (int j = 0; j < datas1.size(); j++) {
+                JSONArray jsonArray2=new JSONArray();
+
                 Object[] objects1 = (Object[]) datas1.get(j);
 
                 jsonObject2.put("id",objects1[0]);
@@ -225,6 +227,7 @@ public class EquipmentTypeServiceImpl implements EquipmentTypeService {
                 //再根据型号查询出所有的品牌
                 List<?> datas2=equipmentTypeRepository.findByModel(objects1[2].toString());
                 for (int k = 0; k < datas2.size(); k++) {
+                    JSONObject jsonObject3=new JSONObject();
                     Object[] objects2 = (Object[]) datas2.get(k);
 
                     jsonObject3.put("id",objects2[0]);
