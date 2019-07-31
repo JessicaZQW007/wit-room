@@ -15,6 +15,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -67,9 +71,25 @@ public class MonthCountElectricServiceImpl  implements MonthCountElectricService
 
     @Override
     public Double sumDayCountBiao(String date,String uuid) {
-        String minData = monthCountElectricRepository.sumDayMinuuid(date,uuid);
+        //String minData = monthCountElectricRepository.sumDayMinuuid(date,uuid);
+        //时间减一天
+        SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
+        String  lastDate="";
+        try {
+            Date dd = dft.parse(date);
+            Calendar time = Calendar.getInstance();
+
+            time.setTime(dd);
+            time.set(Calendar.DATE, time.get(Calendar.DATE) - 1);
+            lastDate =dft.format( dft.parse(dft.format(time.getTime())));
+            System.out.println("lastDate="+lastDate);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
 
+        String minData = monthCountElectricRepository.sumDayMaxuuid(lastDate,uuid);
         String maxData = monthCountElectricRepository.sumDayMaxuuid(date,uuid);
 
 

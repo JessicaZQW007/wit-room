@@ -193,7 +193,7 @@ public interface EquipmentRepository extends JpaRepository<Equipment, String>, J
             " end aa ,xx3.uuid from (\n" +
             "select x3.receive_date,e.uuid,x3.board_data_report_interval   \n" +
             "from  t_equipment e  left   join  (SELECT * from s_receive_data where   id in (  select max(id) from s_receive_data group by uuid)  ) x3  on   e.uuid=x3.uuid         \n" +
-            " group by e.uuid) xx3) xxx3 ,t_equipment e,p_project p,t_unit u where xxx3.uuid=e.uuid and p.eq_id=e.id and e.unit_id=u.id and p.unit_id=u.id " +
+            " group by e.uuid) xx3) xxx3 ,t_equipment e,p_project p,t_unit u where xxx3.uuid=e.uuid and p.eq_id=e.id  and p.unit_id=u.id " +
             "AND  if(:pId != '' , u.p_id =:pId , 1 = 1 ) " +
             "AND  if(:unitId != '' , e.unit_id =:unitId , 1 = 1 ) " +
             "AND  if(:address !='', p.address like CONCAT('%',:address,'%'), 1 = 1) " +
@@ -215,7 +215,7 @@ public interface EquipmentRepository extends JpaRepository<Equipment, String>, J
             " end aa ,xx3.uuid from (\n" +
             "select x3.receive_date,e.uuid,x3.board_data_report_interval\n" +
             "from  t_equipment e  left    join  (SELECT * from s_receive_data where   id in (  select max(id) from s_receive_data group by uuid)  ) x3  on   e.uuid=x3.uuid        " +
-            " group by e.uuid) xx3) xxx3 ,t_equipment e,p_project p,t_unit u where xxx3.uuid=e.uuid and p.eq_id=e.id and e.unit_id=u.id and p.unit_id=u.id " +
+            " group by e.uuid) xx3) xxx3 ,t_equipment e,p_project p,t_unit u where xxx3.uuid=e.uuid and p.eq_id=e.id  and p.unit_id=u.id " +
             "AND  if(:pId != '' , u.p_id =:pId , 1 = 1 )" +
             "AND  if(:unitId != '' , e.unit_id =:unitId , 1 = 1 )  " +
             " AND   if(:address !='', p.address like CONCAT('%',:address,'%'), 1 = 1) " +

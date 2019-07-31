@@ -355,6 +355,7 @@ public class DayCountElectricServiceImpl implements DayCountElectricService {
     public JSONArray sumHourCountbiao1(String date, String uuid) throws ParseException {
         JSONArray jsonArray = new JSONArray();
         Double num=0.0;
+        String biaoshi="no";
         List<?> datas = dayCountElectricRepository.sumHourMaxBiao(uuid,date);
         for (int i = 0; i < datas.size(); i++) {
 
@@ -379,13 +380,16 @@ public class DayCountElectricServiceImpl implements DayCountElectricService {
                     if(lastDatas.size()!=0) {
                         Object[] objectsLast = (Object[]) lastDatas.get(lastDatas.size() - 1);//最后一条最大的数据
                         num = Double.valueOf(objects1[0].toString()) - Double.valueOf(objectsLast[0].toString());
+
+                        System.out.println("前一天的最大值"+objectsLast[0].toString());
                         BigDecimal b = new BigDecimal(num);
                         f1 = b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue(); // 保留两个小数点
+                        biaoshi="yes";//标识（yes标识从前面的天数中找到了数据）
                         break;
                     }
-
                 }
-                if(num==0.0){
+
+                if(num==0.0&&biaoshi.equals("no")){
                     //如果前面的天数都没有数据  就减0
                     num = Double.valueOf(objects1[0].toString()) - 0.0;
                     BigDecimal b = new BigDecimal(num);
