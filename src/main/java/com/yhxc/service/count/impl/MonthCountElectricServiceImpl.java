@@ -88,10 +88,13 @@ public class MonthCountElectricServiceImpl  implements MonthCountElectricService
             e.printStackTrace();
         }
 
+        String minData1 = monthCountElectricRepository.sumDayMinuuid(date,uuid);//当天最小值
 
-        String minData = monthCountElectricRepository.sumDayMaxuuid(lastDate,uuid);
-        String maxData = monthCountElectricRepository.sumDayMaxuuid(date,uuid);
-
+        String minData = monthCountElectricRepository.sumDayMaxuuid(lastDate,uuid);//前一天最大值
+        String maxData = monthCountElectricRepository.sumDayMaxuuid(date,uuid);//当天最大值
+        if(StringUtil.isEmpty(minData)){  //当前一天没有数据为空时
+            minData=minData1;//当天最小值
+        }
 
         int  transrate= equipmentRepository.findtransrate(uuid);
 
@@ -102,6 +105,7 @@ public class MonthCountElectricServiceImpl  implements MonthCountElectricService
             BigDecimal b = new BigDecimal(electricity);
              f1 = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue(); // 保留两个小数点
         }
+
         return  f1;
     }
 
