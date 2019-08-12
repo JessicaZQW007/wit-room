@@ -8,10 +8,7 @@ import com.yhxc.entity.system.Log;
 import com.yhxc.entity.system.Role;
 import com.yhxc.entity.system.User;
 import com.yhxc.entity.system.UserRole;
-import com.yhxc.service.system.LogService;
-import com.yhxc.service.system.RoleService;
-import com.yhxc.service.system.UserRoleService;
-import com.yhxc.service.system.UserService;
+import com.yhxc.service.system.*;
 import com.yhxc.service.unit.UnitService;
 import com.yhxc.utils.*;
 import com.yhxc.utils.sms.SmsUtil;
@@ -45,6 +42,10 @@ public class UserController {
 
     @Resource
     private UnitService unitService;
+
+    @Resource
+    private UserProjectService userProjectService;
+
 
     /**
      * 修改密码
@@ -416,6 +417,7 @@ public class UserController {
                 Integer id = Integer.parseInt(idStr[i]);
                 User u = userService.findById(id);
                 logService.save(new Log(Log.DELETE_ACTION, "删除用户信息" + u));
+                userProjectService.deleteByuserId(id); //删除用户项目关联信息
                 userRoleService.deleteByUserId(id); // 删除用户角色关联信息
                 userService.delete(id);
             }
