@@ -105,6 +105,8 @@ public class EquipmentServiceImpl implements EquipmentService {
         return predicate;
     }
 
+
+
     @Override
     public List<Equipment> listEquipmentResPage(Equipment equipment, Integer pageNum, Integer pageSize) {
         return equipmentMapper.listEquipmentRes(equipment);
@@ -392,6 +394,22 @@ public class EquipmentServiceImpl implements EquipmentService {
             jsonObject.put("nb_card", objects[5]);
             jsonObject.put("eq_id", objects[6]);
             jsonObject.put("production_date", objects[7]);
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray;
+    }
+
+
+
+    @Override
+    public JSONArray findrunStatus(String date,String receiveDate,String runStatus,String uuid){
+        List<?> datas = equipmentRepository.findrunStatus(date,receiveDate,runStatus,uuid);
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i < datas.size(); i++) {
+            JSONObject jsonObject = new JSONObject();
+            System.out.println("uuid="+datas.get(i));
+            jsonObject.put("uuid", datas.get(i));
+
             jsonArray.add(jsonObject);
         }
         return jsonArray;

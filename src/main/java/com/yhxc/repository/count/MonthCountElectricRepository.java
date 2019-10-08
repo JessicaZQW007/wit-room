@@ -64,7 +64,7 @@ public interface MonthCountElectricRepository extends JpaRepository<MonthCountEl
   查询某天最大的用电量 date ,uuid查询
  */
     @Query(value = " SELECT  a.totalpower from (SELECT r.uuid ,r.totalpower ,r.receive_date from  t_equipment e,s_receive_data r where " +
-            "   e.uuid =r.uuid   and  substr(r.receive_date,1,10)=:date and r.uuid=:uuid  ORDER BY r.receive_date DESC LIMIT 10000000000) a  LIMIT 1  ", nativeQuery = true)
+            "   e.uuid =r.uuid   and  substr(r.receive_date,1,10)=:date and r.uuid=:uuid  and r.totalpower!=0 ORDER BY r.receive_date DESC LIMIT 10000000000) a  LIMIT 1  ", nativeQuery = true)
     public String sumDayMaxuuid(@Param("date") String date,@Param("uuid") String uuid);
 
 

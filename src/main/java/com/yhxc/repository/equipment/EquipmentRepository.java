@@ -144,7 +144,7 @@ public interface EquipmentRepository extends JpaRepository<Equipment, String>, J
      *
      */
     @Query(value = "SELECT xxx3.aa,count(xxx3.aa)  from(select CASE \n" +
-            " WHEN  round(unix_timestamp(NOW())-unix_timestamp(xx3.receive_date))>(xx3.board_data_report_interval+300) or ISNULL(xx3.receive_date ) then '2' else '1'\n" +
+            " WHEN  round(unix_timestamp(NOW())-unix_timestamp(xx3.receive_date))>(xx3.board_data_report_interval+1800) or ISNULL(xx3.receive_date ) then '2' else '1'\n" +
             " end aa ,xx3.uuid from (\n" +
             "select x3.receive_date,e.uuid,x3.board_data_report_interval   \n" +
             "from  t_equipment e  left   join  (SELECT * from s_receive_data where   id in (  select max(id) from s_receive_data group by uuid)  ) x3  on   e.uuid=x3.uuid         \n" +
@@ -304,6 +304,28 @@ public interface EquipmentRepository extends JpaRepository<Equipment, String>, J
             " ORDER BY e.create_time desc ", nativeQuery = true)
     public List<?> findByUnitId(@Param("unitId") String unitId,@Param("uuid") String uuid);
 
+
+
+
+
+
+
+
+    /**
+     * 查询项目中设备运行状态
+     *
+     */
+    @Query(value = "SELECT    e.uuid  from(select CASE \n" +
+            " WHEN  round(unix_timestamp(:date)-unix_timestamp(xx3.receive_date))>(xx3.board_data_report_interval+1800) or ISNULL(xx3.receive_date ) then '2' else '1'\n" +
+            " end aa ,xx3.uuid from (\n" +
+            "select x3.receive_date,e.uuid,x3.board_data_report_interval   \n" +
+            "from  t_equipment e  left   join  (SELECT * from s_receive_data where   id in (  select max(id) from s_receive_data where if(:receiveDate !='', receive_date like CONCAT('%',:receiveDate,'%') , 1 = 1 ) group by uuid)  ) x3  on   e.uuid=x3.uuid         \n" +
+            " group by e.uuid) xx3) xxx3 ,t_equipment e,p_project p,t_unit u where xxx3.uuid=e.uuid and p.eq_id=e.id  and p.unit_id=u.id " +
+            "and  if(:runStatus !='', xxx3.aa like CONCAT('%',:runStatus,'%'), 1 = 1) " +
+            "AND  if(:uuid != '' , e.uuid =:uuid , 1 = 1 ) " +
+            " ORDER BY p.createtime desc  ", nativeQuery = true)
+
+    public List<?> findrunStatus(@Param("date") String date,@Param("receiveDate") String receiveDate,@Param("runStatus") String runStatus,@Param("uuid") String uuid);
 
 
 

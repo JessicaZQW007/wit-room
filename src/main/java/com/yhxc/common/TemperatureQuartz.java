@@ -7,12 +7,14 @@ import com.yhxc.entity.temperature.DayTemperature;
 
 import com.yhxc.entity.temperature.MonthTemperature;
 import com.yhxc.entity.temperature.YearTemperature;
+import com.yhxc.service.equipment.EquipmentService;
 import com.yhxc.service.system.LogService;
 import com.yhxc.service.temperature.DayTemperatureService;
 
 import com.yhxc.service.temperature.MonthTemperatureService;
 import com.yhxc.service.temperature.YearTemperatureService;
 import com.yhxc.utils.DateUtil;
+import com.yhxc.utils.sms.SmsUtil;
 import net.sf.json.JSONArray;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -49,6 +51,9 @@ public class TemperatureQuartz {
 
     @Resource
     private LogService logService;
+
+    @Resource
+    private EquipmentService equipmentService;
 
 
     //记录昨天的设备温度湿度数据
@@ -128,6 +133,34 @@ public class TemperatureQuartz {
 
 
         logService.save(new Log(Log.ADD_ACTION, "在"+DateUtil.getTime()+"的时候:备份当年每月的设备温度湿度平均值,成功!"));
+    }
+
+    //所有设备都离线了就发送短信通知
+    @Scheduled(cron = "0 */10 * * * ?")
+    @Async
+    public void findSbStatus1() throws Exception{
+        String date="";
+        String receiveDate="";
+        String uuid="";
+        String runStatus="1";
+        String mobile="17666051692";
+        //String mobile="17671792893";
+        String content="";
+        date=DateUtil.getTime();
+        JSONArray jsonArray1=equipmentService.findrunStatus(date,receiveDate,runStatus,uuid);//8月8号14点在线的设备
+
+        if(jsonArray1.size()==0){
+            //所有设备都离线 发送短信通知
+            //String uuidd = uuid.substring(uuid.length() - 6);
+            content="您的验证码是：" + 456 + "。请不要把验证码泄露给其他人。";
+            if (SmsUtil.sendSms3(mobile, content)) {
+                System.out.println("发送成功");
+
+            }
+        }
+
+
+
     }
 
 

@@ -154,4 +154,10 @@ public interface EquipmentService {
     public JSONArray  findByUnitId(String unitId,String uuid);
 
 
+    /**
+     * 查询项目中设备运行状态
+     *
+     */
+    public JSONArray  findrunStatus(String date,String receiveDate,String runStatus,String uuid);
+
 }
